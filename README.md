@@ -60,7 +60,7 @@
 
     ```bash
     python -m http.server 8000
-
+    ```
     Open `http://localhost:8000` in your browser. 
 
 ### Project Structure
@@ -82,7 +82,7 @@ heady-audio-store/
 │   │   ├── customer/             # Customer UI (ProductCard.js, CartItem.js, Banner.js)
 │   │   └── admin/                # Admin UI (StatCard.js, DataTable.js, StatusBadge.js)
 │   │
-│   ├── layouts/                  # Interface Layout Wrappers
+│   ├── layouts/                  # Interface Layouts
 │   │   ├── CustomerLayout.js     # Storefront navigation menu and footer
 │   │   └── AdminLayout.js        # Admin dashboard sidebar and header
 │   │
