@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heady — Audio Gear</title>
+  <link rel="stylesheet" href="/css/output.css">
+
+  <!-- Browser-native Import Map (Replaces npm resolution & Vite) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18",
+        "react-dom/client": "https://esm.sh/react-dom@18/client",
+        "htm": "https://esm.sh/htm@3",
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+  <!-- React Mount Point -->
+  <div id="root"></div>
+
+  <!-- Entry Script -->
+  <script type="module" src="/src/App.js"></script>
+</body>
+</html>
