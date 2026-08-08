@@ -1,14 +1,19 @@
-// src/pages/customer/HomePage.js
 import React from 'react';
 import htm from 'htm';
+
+import HeroSection from '../../components/customer/home/HeroSection.js';
+import FeauturedSection from '../../components/customer/home/FeaturedSection.js';
+import PromotionalSection from '../../components/customer/home/PromotionalSection.js';
 
 const html = htm.bind(React.createElement);
 
 // Add 'export default' before function
 export default function HomePage() {
   return html`
-    <div class="p-8">
-      <h1 class="text-3xl font-bold">Welcome to Heady</h1>
+    <div >
+      <${HeroSection} />
+      <${FeauturedSection}/>
+      <${PromotionalSection}/>
     </div>
   `;
 }

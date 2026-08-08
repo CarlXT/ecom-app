@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import htm from 'htm';
 
@@ -9,7 +9,7 @@ const headyFooterLogo = new URL('../assets/logos/heady-dark-footer.svg', import.
 
 const html = htm.bind(React.createElement);
 
-export function CustomerLayout({ children }) {
+export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
   const location = useLocation();
   const currentPath = location.pathname;
   const navigate = useNavigate();
@@ -59,13 +59,33 @@ export function CustomerLayout({ children }) {
       isActive ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
     }`;
   };
+
+  // State to track scroll position for header background
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return html`
-    <div class="min-h-screen bg-[#121214] text-white flex flex-col justify-between font-sans relative scroll-smooth">
+    <div class="min-h-screen w-full bg-[#121214] text-white flex flex-col overflow-x-hidden">
       
       <!-- ================= HEADER / NAVBAR ================= -->
-      <header class="sticky top-0 z-40 w-full bg-[#121214]/90 backdrop-blur-md border-b border-zinc-800/50">
-        <div class="w-full px-4 sm:px-8 h-20 flex items-center justify-between">          
-          
+      <header class=${`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-[#121214]/95 backdrop-blur-md border-b border-zinc-800/50 shadow-xl py-4' 
+          : 'bg-transparent border-b border-transparent py-6'
+      }`}>
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
           <!-- Brand Logo (Navbar) -->
           <${Link} to="/" class="hover:opacity-90 transition-opacity">
             <img src=${headDarkLogo} alt="Heady Logo" class="h-12 w-auto" />
@@ -108,13 +128,23 @@ export function CustomerLayout({ children }) {
               </svg>
             </button>
 
-
-            <!-- Cart -->
-            <${Link} to="/cart" class="hover:text-white transition-colors relative" title="Shopping Cart">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+            <!-- Cart Icon Button -->
+            <button 
+              onClick=${onOpenCart}
+              class="relative p-2 text-white hover:text-red-500 transition-colors cursor-pointer focus:outline-none"
+              aria-label="Open Cart"
+            >
+              <svg class="w-6 h-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
-            <//>
+
+              <!-- Badge Count -->
+              ${cartCount > 0 && html`
+                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
+                  ${cartCount}
+                </span>
+              `}
+            </button>
           </div>
 
           <!-- Mobile Hamburger Button -->
@@ -131,7 +161,6 @@ export function CustomerLayout({ children }) {
               `}
             </svg>
           </button>
-
         </div>
 
         <!-- Mobile Collapsible Menu Drawer -->
@@ -155,24 +184,26 @@ export function CustomerLayout({ children }) {
                 Search
               </button>
 
-
-              <${Link} 
-                to="/cart" 
-                onClick=${() => setIsMobileMenuOpen(false)}
-                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors"
+              <button 
+                type="button"
+                onClick=${() => {
+                  setIsMobileMenuOpen(false);
+                  if (onOpenCart) onOpenCart();
+                }}
+                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors focus:outline-none"
               >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 Cart
-              <//>
-            </div>
-
+              </button>
+            </div> <!-- Added missing closing </div> here -->
+            
             <!-- Mobile Navigation Links -->
             <nav class="flex flex-col gap-4 text-base">
               <${Link} to="/" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/')}>Home<//>
               <${Link} to="/shop" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/shop')}>Shop<//>
-             <button 
+              <button 
                 onClick=${() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }} 
                 class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none"
               >
@@ -260,7 +291,7 @@ export function CustomerLayout({ children }) {
       `}
 
       <!-- ================= MAIN CONTENT INJECTION ================= -->
-      <main class="flex-grow">
+      <main class="max-w-screen flex-grow">
         ${children}
       </main>
 

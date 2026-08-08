@@ -1,11 +1,15 @@
-import React from './vendor/react.js';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import htm from 'htm';
 
-// Imported Layouts 
+// Imported layouts 
 import { CustomerLayout } from './layouts/CustomerLayout.js';
 import { AdminLayout } from './layouts/AdminLayout.js';
+import { CustomerCheckoutLayout } from './layouts/CustomerCheckoutLayout.js';
+
+// Imported modal
+import CartModal from './components/ui/modals/customer/CartModal.js'; 
 
 // Imported customer pages
 import HomePage from './pages/customer/HomePage.js';
@@ -13,6 +17,7 @@ import ShopPage from './pages/customer/ShopPage.js';
 import HelpPage from './pages/customer/HelpPage.js';
 import CheckoutPage from './pages/customer/CheckoutPage.js';
 import ProductDetailsPage from './pages/customer/ProductDetailsPage.js';
+import OrderConfirmationPage from './pages/customer/OrderConfirmationPage.js';
 
 // Imported admin pages
 import CustomerPage from './pages/admin/CustomerPage.js';
@@ -25,109 +30,100 @@ import ProductsPage from './pages/admin/ProductsPage.js';
 const html = htm.bind(React.createElement);
 
 export default function App() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
+  const totalCartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const handleOpenCart = () => setIsCartOpen(true);
+
   return html`
     <${Router}>
-      <${Routes}>
-        <!-- Customer page routes -->
-        <${Route} 
-          path="/" 
-          element=${html`
-            <${CustomerLayout}>
-              <${HomePage} />
-            </${CustomerLayout}>
-          `} 
-        />
+      <div>
+        <${Routes}>
+          <${Route} 
+            path="/" 
+            element=${html`
+              <${CustomerLayout} cartCount=${totalCartCount} onOpenCart=${handleOpenCart}>
+                <${HomePage} />
+              <//>
+            `} 
+          />
 
-        <${Route} 
-          path="/shop" 
-          element=${html`
-            <${CustomerLayout}>
-              <${ShopPage} />
-            </${CustomerLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/shop" 
+            element=${html`
+              <${CustomerLayout} cartCount=${totalCartCount} onOpenCart=${handleOpenCart}>
+                <${ShopPage} />
+              <//>
+            `} 
+          />
 
-        <${Route} 
-          path="/help" 
-          element=${html`
-            <${CustomerLayout}>
-              <${HelpPage} />
-            </${CustomerLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/help" 
+            element=${html`
+              <${CustomerLayout} cartCount=${totalCartCount} onOpenCart=${handleOpenCart}>
+                <${HelpPage} />
+              <//>
+            `} 
+          />
 
-        <${Route} 
-          path="/checkout" 
-          element=${html`
-            <${CustomerLayout}>
-              <${CheckoutPage} />
-            </${CustomerLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/checkout" 
+            element=${html`<${CustomerCheckoutLayout}><${CheckoutPage} /><//>`} 
+          />
 
-        <${Route} 
-          path="/product/details" 
-          element=${html`
-            <${CustomerLayout}>
-              <${ProductDetailsPage} />
-            </${CustomerLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/product/details" 
+            element=${html`
+              <${CustomerLayout} cartCount=${totalCartCount} onOpenCart=${handleOpenCart}>
+                <${ProductDetailsPage} />
+              <//>
+            `} 
+          />
 
-        <!-- Admin page routes -->
-        <${Route} 
-          path="/admin/login" 
-          element=${html`
-            <${LoginPage} />
-          `} 
-        />
+          <${Route} 
+            path="/confirmation/order" 
+            element=${html`<${CustomerCheckoutLayout}><${OrderConfirmationPage} /><//>`} 
+          />
 
-        <${Route} 
-          path="/admin/dashboard" 
-          element=${html`
-            <${AdminLayout}>
-              <${DashboardPage} />
-            </${AdminLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/admin/login" 
+            element=${html`<${LoginPage} />`} 
+          />
 
-        <${Route} 
-          path="/admin/customer" 
-          element=${html`
-            <${AdminLayout}>
-              <${CustomerPage} />
-            </${AdminLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/admin/dashboard" 
+            element=${html`<${AdminLayout}><${DashboardPage} /><//>`} 
+          />
 
-        <${Route} 
-          path="/admin/order/details" 
-          element=${html`
-            <${AdminLayout}>
-              <${OrderDetailsPage} />
-            </${AdminLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/admin/customer" 
+            element=${html`<${AdminLayout}><${CustomerPage} /><//>`} 
+          />
 
-        <${Route} 
-          path="/admin/orders" 
-          element=${html`
-            <${AdminLayout}>
-              <${OrdersPage} />
-            </${AdminLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/admin/order/details" 
+            element=${html`<${AdminLayout}><${OrderDetailsPage} /><//>`} 
+          />
 
-        <${Route} 
-          path="/admin/products" 
-          element=${html`
-            <${AdminLayout}>
-              <${ProductsPage} />
-            </${AdminLayout}>
-          `} 
-        />
+          <${Route} 
+            path="/admin/orders" 
+            element=${html`<${AdminLayout}><${OrdersPage} /><//>`} 
+          />
 
-      <//>
+          <${Route} 
+            path="/admin/products" 
+            element=${html`<${AdminLayout}><${ProductsPage} /><//>`} 
+          />
+        <//>
+
+        <${CartModal} 
+          isOpen=${isCartOpen} 
+          onClose=${() => setIsCartOpen(false)} 
+          cartItems=${cartItems} 
+          setCartItems=${setCartItems} 
+        />
+      </div>
     <//>
   `;
 }
