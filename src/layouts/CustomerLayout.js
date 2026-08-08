@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import htm from 'htm';
 
 // Asset paths resolved relative to runtime location
@@ -12,15 +12,35 @@ const html = htm.bind(React.createElement);
 export function CustomerLayout({ children }) {
   const location = useLocation();
   const currentPath = location.pathname;
+  const navigate = useNavigate();
 
-  // Search Modal & Input State
+  // Search & Mobile State
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('Heady Studio');
-
-  // Mobile Menu Drawer State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Sample Search Suggestions
+  // Active Section State (Replaces location.hash for HashRouter compatibility)
+  const [activeSection, setActiveSection] = useState(null);
+
+  // Scroll Helper & Section Highlighter
+  const scrollToSection = (id) => {
+    setActiveSection(id);
+    if (currentPath !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 130);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Clear active section when navigating to standard routes
+  const handleNavClick = () => {
+    setActiveSection(null);
+    setIsMobileMenuOpen(false);
+  };
+
   const sampleProducts = [
     'Heady Studio',
     'Heady Studio Pro',
@@ -34,14 +54,11 @@ export function CustomerLayout({ children }) {
   );
 
   const getNavLinkClass = (target) => {
-    const isActive = target.startsWith('#')
-      ? location.hash === target
-      : (currentPath === target && !location.hash);
+    const isActive = currentPath === target && !activeSection;
     return `text-sm font-medium transition-colors ${
       isActive ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
     }`;
   };
-
   return html`
     <div class="min-h-screen bg-[#121214] text-white flex flex-col justify-between font-sans relative scroll-smooth">
       
@@ -58,8 +75,23 @@ export function CustomerLayout({ children }) {
           <nav class="hidden md:flex items-center gap-8 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]">
             <${Link} to="/" class=${getNavLinkClass('/')}>Home<//>
             <${Link} to="/shop" class=${getNavLinkClass('/shop')}>Shop<//>
-            <a href="#contact" class=${getNavLinkClass('#contact')}>Contact</a>
-            <a href="#follow" class=${getNavLinkClass('#follow')}>Follow</a>
+            <button 
+              onClick=${() => scrollToSection('contact')} 
+              class=${`text-sm font-medium transition-colors focus:outline-none ${
+                activeSection === 'contact' ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
+              }`}
+            >
+              Contact
+            </button>
+
+            <button 
+              onClick=${() => scrollToSection('follow')} 
+              class=${`text-sm font-medium transition-colors focus:outline-none ${
+                activeSection === 'follow' ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
+              }`}
+            >
+              Follow
+            </button>
             <${Link} to="/help" class=${getNavLinkClass('/help')}>Help<//>
           </nav>
 
@@ -140,8 +172,19 @@ export function CustomerLayout({ children }) {
             <nav class="flex flex-col gap-4 text-base">
               <${Link} to="/" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/')}>Home<//>
               <${Link} to="/shop" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/shop')}>Shop<//>
-              <a href="#contact" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('#contact')}>Contact</a>
-              <a href="#follow" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('#follow')}>Follow</a>
+             <button 
+                onClick=${() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }} 
+                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none"
+              >
+                Contact
+              </button>
+
+              <button 
+                onClick=${() => { setIsMobileMenuOpen(false); scrollToSection('follow'); }} 
+                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none"
+              >
+                Follow
+              </button>
               <${Link} to="/help" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/help')}>Help<//>
             </nav>
 
@@ -228,7 +271,9 @@ export function CustomerLayout({ children }) {
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-12 md:mb-16 relative z-10 text-center sm:text-left">
             
             <div id="follow" class="flex flex-col items-center sm:items-start">
-              <h3 class=${`font-semibold text-lg mb-3 md:mb-4 transition-colors ${location.hash === '#follow' ? 'text-red-500 font-bold' : 'text-white'}`}>
+              <h3 class=${`font-semibold text-lg mb-3 md:mb-4 transition-colors ${
+                activeSection === 'follow' ? 'text-red-500 font-bold' : 'text-white'
+              }`}>
                 Follow us on
               </h3>
               <ul class="space-y-2 text-sm font-medium text-zinc-400">
@@ -239,7 +284,9 @@ export function CustomerLayout({ children }) {
             </div>
 
             <div id="contact" class="flex flex-col items-center sm:items-start">
-              <h3 class=${`font-semibold text-lg mb-3 md:mb-4 transition-colors ${location.hash === '#contact' ? 'text-red-500 font-bold' : 'text-white'}`}>
+              <h3 class=${`font-semibold text-lg mb-3 md:mb-4 transition-colors ${
+                activeSection === 'contact' ? 'text-red-500 font-bold' : 'text-white'
+              }`}>
                 Contact
               </h3>
               <ul class="space-y-2 text-sm font-medium text-zinc-400">
