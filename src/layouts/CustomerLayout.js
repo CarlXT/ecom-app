@@ -60,7 +60,7 @@ export function CustomerLayout({ children }) {
             <${Link} to="/shop" class=${getNavLinkClass('/shop')}>Shop<//>
             <a href="#contact" class=${getNavLinkClass('#contact')}>Contact</a>
             <a href="#follow" class=${getNavLinkClass('#follow')}>Follow</a>
-            <${Link} to="/help" class=${getNavLinkClass('/help')}>Help & Support<//>
+            <${Link} to="/help" class=${getNavLinkClass('/help')}>Help<//>
           </nav>
 
           <!-- Desktop Action Icons -->
@@ -123,16 +123,6 @@ export function CustomerLayout({ children }) {
                 Search
               </button>
 
-              <${Link} 
-                to="/account" 
-                onClick=${() => setIsMobileMenuOpen(false)}
-                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors"
-              >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Account
-              <//>
 
               <${Link} 
                 to="/cart" 
@@ -152,7 +142,7 @@ export function CustomerLayout({ children }) {
               <${Link} to="/shop" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/shop')}>Shop<//>
               <a href="#contact" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('#contact')}>Contact</a>
               <a href="#follow" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('#follow')}>Follow</a>
-              <${Link} to="/help" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/help')}>Help & Support<//>
+              <${Link} to="/help" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/help')}>Help<//>
             </nav>
 
           </div>
@@ -260,7 +250,7 @@ export function CustomerLayout({ children }) {
             </div>
 
             <div class="flex flex-col items-center sm:items-start">
-              <h3 class="text-white font-semibold text-lg mb-3 md:mb-4">Help & Support</h3>
+              <h3 class="text-white font-semibold text-lg mb-3 md:mb-4">Help</h3>
               <ul class="space-y-2 text-sm font-medium text-zinc-400">
                 <li><${Link} to="/faq" class="hover:text-white transition-colors">FAQ<//></li>
                 <li><${Link} to="/privacy" class="hover:text-white transition-colors">Privacy Policy<//></li>
