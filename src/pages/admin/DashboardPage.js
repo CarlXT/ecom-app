@@ -1,13 +1,16 @@
 import React from 'react';
 import htm from 'htm';
 
+import OverviewHeaderSection from '../../components/admin/dashboard/OverviewHeaderSection.js';
+import OverviewCardsSection from '../../components/admin/dashboard/OverviewCardsSection.js';
+
 const html = htm.bind(React.createElement);
 
-// Add 'export default' before function
 export default function DashboardPage() {
   return html`
-    <div class="p-8">
-      <h1 class="text-3xl font-bold">Welcome to Dashboard page</h1>
+    <div className="w-full min-h-screen bg-[#121214] p-10 md:p-12 flex flex-col gap-8 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]">
+      <${OverviewHeaderSection} />
+      <${OverviewCardsSection} />
     </div>
   `;
 }

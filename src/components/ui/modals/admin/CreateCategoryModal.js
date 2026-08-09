@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import htm from 'htm';
 
+import InputTextField from '../../fields/InputTextField.js';
 import FilledButton from '../../buttons/FilledButton.js';
 
 const html = htm.bind(React.createElement);
 
-export function DeleteCategoryModal({ isOpen = true, onClose, onSubmit }) {
+export function CreateCategoryModal({ isOpen = true, onClose, onSubmit }) {
   const [categoryName, setCategoryName] = useState('');
 
   if (!isOpen) return null;
@@ -28,19 +29,27 @@ export function DeleteCategoryModal({ isOpen = true, onClose, onSubmit }) {
       >
         <!-- Header Text Section -->
         <div class="space-y-3">
-          <h2 class="text-[36px] font-bold text-red-700 tracking-tight leading-tight">
-            Action prohibited!
+          <h2 class="text-[36px] font-bold text-white tracking-tight leading-tight">
+            Create product category
           </h2>
-          <p class="text-[16px] font-medium text-yellow-400 leading-snug max-w-[500px]">
-            This DELETION CAN NOT PROCEED as this category already contains products.
+          <p class="text-[16px] font-medium text-zinc-300 leading-snug max-w-[500px]">
+            To create a category please enter a general product name (e.g. headphone).
           </p>
         </div>
+
+        <!-- Form Section -->
+        <form onSubmit=${handleSubmit} class="space-y-6">
+          <${InputTextField}
+            placeholder="Headphone"
+            value=${categoryName}
+            onChange=${(e) => setCategoryName(e.target ? e.target.value : e)}
+          />
 
           <${FilledButton}
             type="submit"
             onClick=${handleSubmit}
           >
-            Ok
+            Create category
           <//>
         </form>
       </div>
@@ -48,4 +57,4 @@ export function DeleteCategoryModal({ isOpen = true, onClose, onSubmit }) {
   `;
 }
 
-export default DeleteCategoryModal;
+export default CreateCategoryModal;
