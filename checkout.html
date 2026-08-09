@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - Heady</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom": "https://esm.sh/react-dom@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?external=react,react-dom",
+        "htm": "https://esm.sh/htm@3.1.1"
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#121214] text-white antialiased">
+  <div id="root"></div>
+
+  <script type="module">
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import { BrowserRouter, Routes, Route } from 'react-router-dom';
+    import htm from 'htm';
+    import CheckoutPage from './src/pages/customer/CheckoutPage.js';
+
+    const html = htm.bind(React.createElement);
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(html`
+      <${BrowserRouter}>
+        <${Routes}>
+          <${Route} path="*" element=${html`<${CheckoutPage} />`} />
+        <//>
+      <//>
+    `);
+  </script>
+</body>
+</html>

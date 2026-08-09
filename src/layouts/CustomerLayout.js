@@ -9,7 +9,7 @@ const headyFooterLogo = new URL('../assets/logos/heady-dark-footer.svg', import.
 
 const html = htm.bind(React.createElement);
 
-export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
+export function CustomerLayout({ children, cartCount = 0, onOpenCart }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
   const [searchQuery, setSearchQuery] = useState('Heady Studio');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Active Section State (Replaces location.hash for HashRouter compatibility)
+  // Active Section State
   const [activeSection, setActiveSection] = useState(null);
 
   // Scroll Helper & Section Highlighter
@@ -97,7 +97,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
             <${Link} to="/shop" onClick=${handleNavClick} class=${getNavLinkClass('/shop')}>Shop<//>
             <button 
               onClick=${() => scrollToSection('contact')} 
-              class=${`text-sm font-medium transition-colors focus:outline-none ${
+              class=${`text-sm font-medium transition-colors focus:outline-none cursor-pointer ${
                 activeSection === 'contact' ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
               }`}
             >
@@ -106,7 +106,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
 
             <button 
               onClick=${() => scrollToSection('follow')} 
-              class=${`text-sm font-medium transition-colors focus:outline-none ${
+              class=${`text-sm font-medium transition-colors focus:outline-none cursor-pointer ${
                 activeSection === 'follow' ? 'text-red-500 font-semibold' : 'text-white hover:text-red-400'
               }`}
             >
@@ -120,7 +120,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
             <!-- Desktop Search Button -->
             <button 
               onClick=${() => setIsSearchOpen(true)} 
-              class="hover:text-white transition-colors p-1 focus:outline-none" 
+              class="hover:text-white transition-colors p-1 focus:outline-none cursor-pointer" 
               title="Search"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,7 +128,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
               </svg>
             </button>
 
-            <!-- Cart Icon Button -->
+            <!-- Cart Icon Button with Red Dot Indicator -->
             <button 
               onClick=${onOpenCart}
               class="relative p-2 text-white hover:text-red-500 transition-colors cursor-pointer focus:outline-none"
@@ -138,19 +138,17 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
 
-              <!-- Badge Count -->
-              ${cartCount > 0 && html`
-                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
-                  ${cartCount}
-                </span>
-              `}
+              <!-- Persistent Red Dot Indicator -->
+              ${cartCount > 0 ? html`
+                <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-600 rounded-full ring-2 ring-[#121214]"></span>
+              ` : null}
             </button>
           </div>
 
           <!-- Mobile Hamburger Button -->
           <button 
             onClick=${() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-            class="md:hidden text-zinc-300 hover:text-white p-2 transition-colors focus:outline-none"
+            class="md:hidden text-zinc-300 hover:text-white p-2 transition-colors focus:outline-none cursor-pointer"
             aria-label="Toggle menu"
           >
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,19 +162,19 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
         </div>
 
         <!-- Mobile Collapsible Menu Drawer -->
-        ${isMobileMenuOpen && html`
+        ${isMobileMenuOpen ? html`
           <div class="md:hidden bg-[#121214] border-b border-zinc-800 px-6 py-6 flex flex-col gap-6 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]">
             
             <!-- Quick Action Icons inside Mobile Drawer -->
             <div class="flex items-center justify-around py-3 border-b border-zinc-800/80 text-zinc-300">
-              <!-- Mobile Drawer Search Icon -->
+              <!-- Mobile Search -->
               <button 
                 type="button"
                 onClick=${() => { 
                   setIsMobileMenuOpen(false); 
                   setIsSearchOpen(true); 
                 }} 
-                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors focus:outline-none"
+                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors focus:outline-none cursor-pointer"
               >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -184,20 +182,26 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
                 Search
               </button>
 
+              <!-- Mobile Cart with Red Dot Indicator -->
               <button 
                 type="button"
                 onClick=${() => {
                   setIsMobileMenuOpen(false);
                   if (onOpenCart) onOpenCart();
                 }}
-                class="flex flex-col items-center gap-1 text-xs hover:text-white transition-colors focus:outline-none"
+                class="relative flex flex-col items-center gap-1 text-xs hover:text-white transition-colors focus:outline-none cursor-pointer"
               >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+                <div class="relative">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  ${cartCount > 0 ? html`
+                    <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-600 rounded-full ring-2 ring-[#121214]"></span>
+                  ` : null}
+                </div>
                 Cart
               </button>
-            </div> <!-- Added missing closing </div> here -->
+            </div>
             
             <!-- Mobile Navigation Links -->
             <nav class="flex flex-col gap-4 text-base">
@@ -205,14 +209,14 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
               <${Link} to="/shop" onClick=${() => setIsMobileMenuOpen(false)} class=${getNavLinkClass('/shop')}>Shop<//>
               <button 
                 onClick=${() => { setIsMobileMenuOpen(false); scrollToSection('contact'); }} 
-                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none"
+                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none cursor-pointer"
               >
                 Contact
               </button>
 
               <button 
                 onClick=${() => { setIsMobileMenuOpen(false); scrollToSection('follow'); }} 
-                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none"
+                class="text-left text-sm font-medium text-white hover:text-red-400 transition-colors focus:outline-none cursor-pointer"
               >
                 Follow
               </button>
@@ -220,32 +224,27 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
             </nav>
 
           </div>
-        `}
+        ` : null}
       </header>
 
       <!-- ================= SEARCH OVERLAY MODAL ================= -->
-      ${isSearchOpen && html`
+      ${isSearchOpen ? html`
         <div 
           class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center pt-10 px-4 transition-all"
           onClick=${() => setIsSearchOpen(false)}
         >
-          <!-- Search Container Box -->
           <div class="w-full max-w-2xl flex flex-col gap-3" onClick=${(e) => e.stopPropagation()}>
-            
-            <!-- Rounded Search Input Bar -->
             <div class="bg-[#433e48] text-white rounded-full px-5 py-3 flex items-center gap-4 shadow-2xl border border-white/10">
-              <!-- Close Button (X) -->
               <button 
                 type="button"
                 onClick=${() => setIsSearchOpen(false)}
-                class="text-zinc-300 hover:text-white transition-colors p-1 focus:outline-none"
+                class="text-zinc-300 hover:text-white transition-colors p-1 focus:outline-none cursor-pointer"
               >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
 
-              <!-- Search Text Input -->
               <input 
                 type="text" 
                 value=${searchQuery} 
@@ -255,10 +254,9 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
                 class="bg-transparent text-white text-lg w-full focus:outline-none placeholder-zinc-400 font-normal tracking-wide"
               />
 
-              <!-- Search Circle Icon -->
               <button 
                 type="button" 
-                class="bg-white text-[#433e48] p-2.5 rounded-full hover:bg-zinc-200 transition-colors flex-shrink-0"
+                class="bg-white text-[#433e48] p-2.5 rounded-full hover:bg-zinc-200 transition-colors flex-shrink-0 cursor-pointer"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -266,8 +264,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
               </button>
             </div>
 
-            <!-- Suggestions Dropdown Box -->
-            ${searchQuery.trim().length > 0 && html`
+            ${searchQuery.trim().length > 0 ? html`
               <div class="bg-[#433e48] text-white rounded-[2rem] p-6 shadow-2xl border border-white/10 flex flex-col gap-3">
                 ${filteredSuggestions.length > 0 ? filteredSuggestions.map(item => html`
                   <div 
@@ -284,11 +281,10 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
                   <div class="text-zinc-400 text-base py-2 px-3">No matching products found</div>
                 `}
               </div>
-            `}
-
+            ` : null}
           </div>
         </div>
-      `}
+      ` : null}
 
       <!-- ================= MAIN CONTENT INJECTION ================= -->
       <main class="max-w-screen flex-grow">

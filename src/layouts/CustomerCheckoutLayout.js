@@ -41,3 +41,5 @@ export function CustomerCheckoutLayout({ title = "Checkout your items", onClose,
     </div>
   `;
 }
+
+export default CustomerCheckoutLayout;
