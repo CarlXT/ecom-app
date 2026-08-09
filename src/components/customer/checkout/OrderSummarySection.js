@@ -1,6 +1,6 @@
 import React from 'react';
 import htm from 'htm';
-import { ProductOrderedCard } from './ProductOrderedCard.js';
+import { ProductOrderedCard } from '../../ui/cards/customer/ProductOrderedCard.js';
 
 const html = htm.bind(React.createElement);
 

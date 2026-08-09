@@ -7,12 +7,12 @@ import ShippingDetailsSection from '../../components/customer/checkout/ShippingD
 import PaymentMethodSection from '../../components/customer/checkout/PaymentMethodSection.js';
 import CheckoutOrderSection from '../../components/customer/checkout/CheckoutOrderSection.js';
 import OrderSummarySection from '../../components/customer/checkout/OrderSummarySection.js';
-import CustomerCheckoutLayout from '../../layouts/CustomerCheckoutLayout.js';
+import { CustomerCheckoutLayout } from '../../layouts/CustomerCheckoutLayout.js';
 
 const html = htm.bind(React.createElement);
 
 export default function CheckoutPage({ cartItems = [], onCompleteOrder }) {
-  const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Review
+  const [step, setStep] = useState(1);
   const [completedOrder, setCompletedOrder] = useState(null);
   const [formData, setFormData] = useState({
     name: 'Melisa McCarthy',
@@ -58,18 +58,14 @@ export default function CheckoutPage({ cartItems = [], onCompleteOrder }) {
   }
 
   return html`
-    <${CustomerCheckoutLayout}>
+    <${CustomerCheckoutLayout} onClose=${() => window.history.back()}>
       <div class="w-full">
-        <!-- Checkout Stepper Positioned Above the Grid -->
         <${CheckoutStepperSection} 
           step=${step} 
           onStepChange=${(nextStep) => setStep(nextStep)} 
         />
 
-        <!-- Main Form Grid (2-column grid layout preserved) -->
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          <!-- Left Column: Dynamic Forms based on current step -->
           <div class="lg:col-span-7 space-y-6">
             ${step === 1 && html`
               <${ShippingDetailsSection} 
@@ -95,14 +91,12 @@ export default function CheckoutPage({ cartItems = [], onCompleteOrder }) {
             `}
           </div>
 
-          <!-- Right Column: Order Summary Card -->
           <${OrderSummarySection} 
             cartItems=${cartItems} 
             subtotal=${subtotal} 
           />
-
         </div>
       </div>
-    <//>
+    </${CustomerCheckoutLayout}>
   `;
 }
