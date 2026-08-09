@@ -420,6 +420,9 @@
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
   }
+  .mr-4 {
+    margin-right: calc(var(--spacing) * 4);
+  }
   .-mb-1 {
     margin-bottom: calc(var(--spacing) * -1);
   }
@@ -720,11 +723,17 @@
   .w-48 {
     width: calc(var(--spacing) * 48);
   }
+  .w-52 {
+    width: calc(var(--spacing) * 52);
+  }
   .w-64 {
     width: calc(var(--spacing) * 64);
   }
   .w-72 {
     width: calc(var(--spacing) * 72);
+  }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
   }
   .w-416 {
     width: calc(var(--spacing) * 416);
@@ -831,6 +840,9 @@
   .max-w-\[calc\(100vw-2rem\)\] {
     max-width: calc(100vw - 2rem);
   }
+  .max-w-\[calc\(100vw-3rem\)\] {
+    max-width: calc(100vw - 3rem);
+  }
   .max-w-full {
     max-width: 100%;
   }
@@ -875,6 +887,10 @@
   }
   .border-collapse {
     border-collapse: collapse;
+  }
+  .-translate-x-16 {
+    --tw-translate-x: calc(var(--spacing) * -16);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1 / 2 * 100%) * -1);
@@ -1242,6 +1258,10 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .border-\[2px\] {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
   .border-\[3px\] {
     border-style: var(--tw-border-style);
     border-width: 3px;
@@ -1358,6 +1378,9 @@
       border-color: color-mix(in oklab, var(--color-white) 80%, transparent);
     }
   }
+  .border-zinc-300 {
+    border-color: var(--color-zinc-300);
+  }
   .border-zinc-400 {
     border-color: var(--color-zinc-400);
   }
@@ -1456,6 +1479,9 @@
   }
   .bg-\[\#34C759\] {
     background-color: #34C759;
+  }
+  .bg-\[\#332d3a\]\/95 {
+    background-color: color-mix(in oklab, #332d3a 95%, transparent);
   }
   .bg-\[\#332e3a\]\/95 {
     background-color: color-mix(in oklab, #332e3a 95%, transparent);
@@ -1603,6 +1629,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
     }
+  }
+  .bg-zinc-300 {
+    background-color: var(--color-zinc-300);
   }
   .bg-zinc-500 {
     background-color: var(--color-zinc-500);
@@ -2745,6 +2774,9 @@
     .sm\:col-span-2 {
       grid-column: span 2 / span 2;
     }
+    .sm\:mr-8 {
+      margin-right: calc(var(--spacing) * 8);
+    }
     .sm\:mb-0 {
       margin-bottom: 0px;
     }
@@ -2877,6 +2909,9 @@
     .sm\:w-80 {
       width: calc(var(--spacing) * 80);
     }
+    .sm\:w-96 {
+      width: calc(var(--spacing) * 96);
+    }
     .sm\:w-\[160px\] {
       width: 160px;
     }
@@ -2885,6 +2920,10 @@
     }
     .sm\:w-\[340px\] {
       width: 340px;
+    }
+    .sm\:-translate-x-28 {
+      --tw-translate-x: calc(var(--spacing) * -28);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
     }
     .sm\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2989,6 +3028,9 @@
     }
     .sm\:p-5 {
       padding: calc(var(--spacing) * 5);
+    }
+    .sm\:p-6 {
+      padding: calc(var(--spacing) * 6);
     }
     .sm\:p-8 {
       padding: calc(var(--spacing) * 8);
@@ -3458,6 +3500,9 @@
   .\[\&_button\]\:rounded button {
     border-radius: 0.25rem;
   }
+  .\[\&_button\]\:rounded-2xl button {
+    border-radius: var(--radius-2xl);
+  }
   .\[\&_button\]\:rounded-lg button {
     border-radius: var(--radius-lg);
   }
@@ -3486,6 +3531,9 @@
   .\[\&_button\]\:px-3 button {
     padding-inline: calc(var(--spacing) * 3);
   }
+  .\[\&_button\]\:px-4 button {
+    padding-inline: calc(var(--spacing) * 4);
+  }
   .\[\&_button\]\:py-0\.5 button {
     padding-block: calc(var(--spacing) * 0.5);
   }
@@ -3494,6 +3542,13 @@
   }
   .\[\&_button\]\:py-1\.5 button {
     padding-block: calc(var(--spacing) * 1.5);
+  }
+  .\[\&_button\]\:py-2\.5 button {
+    padding-block: calc(var(--spacing) * 2.5);
+  }
+  .\[\&_button\]\:text-sm button {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
   }
   .\[\&_button\]\:text-xs button {
     font-size: var(--text-xs);
@@ -3521,6 +3576,12 @@
       .\[\&_button\]\:hover\:bg-white\/10 button:hover {
         background-color: color-mix(in oklab, var(--color-white) 10%, transparent);
       }
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:\[\&_button\]\:text-base button {
+      font-size: var(--text-base);
+      line-height: var(--tw-leading, var(--text-base--line-height));
     }
   }
   .\[\&\:\:-webkit-scrollbar\]\:hidden::-webkit-scrollbar {

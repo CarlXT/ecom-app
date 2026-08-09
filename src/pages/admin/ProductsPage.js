@@ -3,7 +3,7 @@ import htm from 'htm';
 
 import CategoryCard from '../../components/ui/cards/admin/CategoryCard.js';
 import OutlinedButton from '../../components/ui/buttons/OutLinedButton.js';
-import CreateCategoryModal from '../../components/ui/modals/admin/CreateCategoryModal.js';
+import DropdownAddMenu from '../../components/ui/menus/DropdownAddMenu.js';
 
 const html = htm.bind(React.createElement);
 
