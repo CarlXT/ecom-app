@@ -1,182 +1,124 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import htm from 'htm';
+import { ProductCard } from '../../ui/cards/customer/ProductCard.js';
+import FilledButton from '../../ui/buttons/FilledButton.js';
 
 const html = htm.bind(React.createElement);
 
-// Reusable Category Button Component
-export function CategoryButton({ label, icon, isActive, onClick }) {
-  return html`
-    <button
-      onClick=${onClick}
-      class="flex flex-col items-center justify-center p-6 bg-gradient-to-b from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white rounded-3xl transition-transform active:scale-95 shadow-lg aspect-square cursor-pointer focus:outline-none"
-    >
-      <div class="mb-3">
-        ${icon}
-      </div>
-      <span class="text-sm sm:text-base font-medium tracking-tight">${label}</span>
-    </button>
-  `;
-}
+const fallbackCategories = ['Microphones', 'Headphones', 'Filters', 'Mounts'];
 
-// Sample Data for Featured Carousel Products
-const sampleFeaturedProducts = [
-  {
-    id: 1,
-    tag: 'BEST SELLER',
-    title: 'Heady Studio Monitor 50',
-    description: 'our #1 best-selling headphones built for pristine clarity, deep bass accuracy, and zero fatigue during long production sessions.',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-    price: 900.00
-  },
-  {
-    id: 2,
-    tag: 'NEW RELEASE',
-    title: 'Heady Dynamic Mic Pro',
-    description: 'Broadcast-ready dynamic microphone with built-in pop filter and ultra-low noise floor for podcasts and vocal tracking.',
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80',
-    price: 1200.00
-  },
-  {
-    id: 3,
-    tag: 'TOP RATED',
-    title: 'Acoustic Mesh Filter X',
-    description: 'Dual-layer studio pop filter designed to eliminate plosives without muffling subtle high frequencies.',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
-    price: 350.00
-  },
-  {
-    id: 4,
-    tag: 'ESSENTIAL GEAR',
-    title: 'Heavy Duty Boom Arm Mount',
-    description: 'Precision spring-loaded desk mount arm with internal cable channels for clean studio desk configurations.',
-    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80',
-    price: 450.00
-  }
+// Sample fallback products
+const sampleProducts = [
+  { id: 1, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 120, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
+  { id: 2, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 120, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
+  { id: 3, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 120, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
+  { id: 4, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 8, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
+  { id: 5, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 0, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
+  { id: 6, category: 'Headphones', title: 'HEADY STUDIO MONITOR 50', price: 900.00, stock: 0, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80' },
 ];
 
-export default function CollectionSection({ onAddToCart, onBuyNow }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const currentProduct = sampleFeaturedProducts[activeIndex];
+export default function CollectionSection({ 
+  products = sampleProducts, 
+  categories = [], 
+  onAddToCart, 
+  onLoadMore,
+  onCategorySelect 
+}) {
+  const categoryList = categories.length > 0 
+    ? categories 
+    : (products.length > 0 
+        ? Array.from(new Set(products.map(p => p.category).filter(Boolean))) 
+        : fallbackCategories);
 
-  // Category items with SVG icons
-  const categories = [
-    {
-      id: 'mics',
-      label: 'Microphones',
-      icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
-          <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
-        </svg>
-      `
-    },
-    {
-      id: 'headphones',
-      label: 'Headphones',
-      icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
-          <path d="M12 3a9 9 0 00-9 9v7c0 1.1.9 2 2 2h3a1 1 0 001-1v-6a1 1 0 00-1-1H5v-1a7 7 0 0114 0v1h-2a1 1 0 00-1 1v6a1 1 0 001 1h3a2 2 0 002-2v-7a9 9 0 00-9-9z"/>
-        </svg>
-      `
-    },
-    {
-      id: 'filters',
-      label: 'Filters',
-      icon: html`
-        <svg class="w-8 h-8 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
-          <path stroke-linecap="round" d="M4 6h16M7 12h10M10 18h4"/>
-        </svg>
-      `
-    },
-    {
-      id: 'mounts',
-      label: 'Mounts',
-      icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
-          <path d="M12 15a3 3 0 100-6 3 3 0 000 6zm0-8a5 5 0 110 10 5 5 0 010-10zm-7 13h14v2H5v-2z"/>
-        </svg>
-      `
+  const [activeCategory, setActiveCategory] = useState('Headphones');
+
+  useEffect(() => {
+    if (categoryList.length > 0 && !categoryList.includes(activeCategory)) {
+      setActiveCategory(categoryList[0]);
     }
-  ];
+  }, [categories, products]);
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    if (onCategorySelect) {
+      onCategorySelect(category);
+    }
+  };
+
+  const displayedProducts = products.filter((product) => {
+    if (!product.category) return true;
+    return product.category.toLowerCase() === activeCategory.toLowerCase();
+  });
+
+  const sfProFontStyle = {
+    fontFamily: '"SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    WebkitFontSmoothing: 'antialiased'
+  };
 
   return html`
-    <section class="w-full bg-[#121214] text-white py-12 px-4 sm:px-8 font-['SF_Pro_Display',-apple-system,sans-serif]">
-      <div class="max-w-4xl mx-auto space-y-10">
+    <link 
+      rel="stylesheet" 
+      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
+    />
 
-        <!-- Top Tagline Description -->
-        <p class="text-center text-zinc-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
-          Discover studio-grade dynamic mics, flat-response headphones, and heavy-duty mounting gear designed to elevate your production quality.
-        </p>
+    <section 
+      style=${sfProFontStyle}
+      className="w-full bg-[#18181b] py-8 sm:py-20 px-2 sm:px-8 text-white select-none overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-12">
+        
+        <!-- Section Header -->
+        <div className="text-center space-y-2 sm:space-y-3 px-2">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+            The Heady Collection
+          </h2>
+          <p className="text-zinc-400 text-xs sm:text-base font-normal tracking-wide max-w-xl mx-auto">
+            Studio-grade recording gear and desktop workstation essentials.
+          </p>
+        </div>
 
-        <!-- Category Grid (4 Red Category Buttons) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-          ${categories.map((cat, idx) => html`
-            <${CategoryButton}
-              key=${cat.id}
-              label=${cat.label}
-              icon=${cat.icon}
-              onClick=${() => setActiveIndex(idx)}
+        <!-- Dynamic Category Filter Tabs -->
+        <nav className="flex justify-start sm:justify-center items-center gap-5 sm:gap-12 text-sm sm:text-base font-semibold pt-1 overflow-x-auto w-full px-2 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          ${categoryList.map((cat) => html`
+            <button
+              key=${cat}
+              type="button"
+              onClick=${() => handleCategoryClick(cat)}
+              className=${`transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
+                activeCategory === cat 
+                  ? 'text-[#E50914] font-bold' 
+                  : 'text-zinc-300 hover:text-white'
+              }`}
+            >
+              ${cat}
+            </button>
+          `)}
+        </nav>
+
+        <!-- Product Grid Layout -->
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 pt-2 w-full">
+          ${(displayedProducts.length > 0 ? displayedProducts : products).map((product) => html`
+            <${ProductCard} 
+              key=${product.id || product.title}
+              id=${product.id}
+              productUrl=${`/product.html?id=${product.id}`}
+              ...${product}
+              onAddToCart=${onAddToCart}
             />
           `)}
         </div>
 
-        <!-- Featured Product Carousel Display -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
-          
-          <!-- Product Image (Left Column) -->
-          <div class="md:col-span-6">
-            <div class="relative w-full aspect-square rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl">
-              <img 
-                src=${currentProduct.image} 
-                alt=${currentProduct.title}
-                class="w-full h-full object-cover transition-opacity duration-300"
-              />
-            </div>
-          </div>
-
-          <!-- Product Details (Right Column) -->
-          <div class="md:col-span-6 space-y-4 text-left">
-            <span class="inline-block text-xs font-black tracking-widest text-zinc-300 uppercase">
-              ${currentProduct.tag}
-            </span>
-
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              ${currentProduct.title}
-            </h2>
-
-            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
-              ${currentProduct.description}
-            </p>
-
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-4 pt-2">
-              <button
-                onClick=${() => onBuyNow && onBuyNow(currentProduct)}
-                class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
-              >
-                Buy Now
-              </button>
-              
-              <button
-                onClick=${() => onAddToCart && onAddToCart(currentProduct)}
-                class="px-8 py-3 bg-white hover:bg-zinc-200 text-black font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Carousel Pagination Dots -->
-        <div class="flex justify-center items-center gap-2.5 pt-4">
-          ${sampleFeaturedProducts.map((_, idx) => html`
-            <button
-              key=${idx}
-              onClick=${() => setActiveIndex(idx)}
-              aria-label="Go to slide ${idx + 1}"
-              class="w-2.5 h-2.5 rounded-full transition-all focus:outline-none cursor-pointer ${activeIndex === idx ? 'bg-white scale-125' : 'bg-zinc-600 hover:bg-zinc-400'}"
-            ></button>
-          `)}
+        <!-- See More Button -->
+        <div className="flex justify-center pt-4 sm:pt-8">
+          <${FilledButton} 
+            text="See more products"
+            onClick=${onLoadMore}
+            bgColor="bg-white"
+            textColor="text-black"
+            width="w-auto px-8 sm:px-10"
+            height="h-[46px] sm:h-[52px]"
+            className="shadow-white/10 text-sm sm:text-base font-semibold hover:bg-zinc-200"
+          />
         </div>
 
       </div>

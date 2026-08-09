@@ -93,8 +93,8 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart}) {
 
           <!-- Desktop Navigation Links -->
           <nav class="hidden md:flex items-center gap-8 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]">
-            <${Link} to="/" class=${getNavLinkClass('/')}>Home<//>
-            <${Link} to="/shop" class=${getNavLinkClass('/shop')}>Shop<//>
+            <${Link} to="/" onClick=${handleNavClick} class=${getNavLinkClass('/')}>Home<//>
+            <${Link} to="/shop" onClick=${handleNavClick} class=${getNavLinkClass('/shop')}>Shop<//>
             <button 
               onClick=${() => scrollToSection('contact')} 
               class=${`text-sm font-medium transition-colors focus:outline-none ${

@@ -1,75 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { config } from 'config';
+import { useNavigate } from 'react-router-dom';
 import htm from 'htm';
 
 const html = htm.bind(React.createElement);
-const PEXELS_API_KEY = config.PEXELS_API_KEY ? config.PEXELS_API_KEY.trim() : '';
 
-export default function HeroSection() {
-  const [bgImages, setBgImages] = useState([
-    'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    'https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg?auto=compress&cs=tinysrgb&w=1600'
-  ]);
-  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+// Reusable Red Filled Button Component
+export function FilledButton({ children, onClick, className = '' }) {
+  return html`
+    <button
+      type="button"
+      onClick=${onClick}
+      class=${`px-8 py-3 bg-[#E50914] hover:bg-red-700 active:scale-95 text-white font-extrabold text-sm sm:text-base tracking-wider uppercase rounded-full shadow-lg shadow-red-900/40 transition-all duration-200 focus:outline-none cursor-pointer ${className}`}
+    >
+      ${children}
+    </button>
+  `;
+}
 
-  const [timeLeft, setTimeLeft] = useState({
-    days: 3,
-    hours: 9,
-    minutes: 50,
-    seconds: 3
-  });
+// Sample Featured Products List
+const sampleFeaturedProducts = [
+  {
+    id: 1,
+    tag: 'NO. 1 BEST SELLER',
+    title: 'HEADY STUDIO MONITOR 50',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=80'
+  },
+  {
+    id: 2,
+    tag: 'NEW RELEASE',
+    title: 'HEADY DYNAMIC MIC PRO',
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1600&q=80'
+  },
+  {
+    id: 3,
+    tag: 'TOP RATED',
+    title: 'ACOUSTIC MESH FILTER X',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1600&q=80'
+  },
+  {
+    id: 4,
+    tag: 'ESSENTIAL GEAR',
+    title: 'HEAVY DUTY BOOM ARM MOUNT',
+    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1600&q=80'
+  }
+];
 
+export default function BannerSection({ 
+  products = sampleFeaturedProducts, 
+  onBuyNow 
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+
+  const currentProduct = products[activeIndex] || products[0];
+
+  // Auto-advance slide every 5 seconds
   useEffect(() => {
-    async function fetchPexelsPhotos() {
-      if (!PEXELS_API_KEY || PEXELS_API_KEY.includes('YOUR_ACTUAL_PEXELS')) return;
-      try {
-        const response = await fetch(
-          'https://api.pexels.com/v1/search?query=person%20wearing%20headphones&per_page=30',
-          { headers: { Authorization: PEXELS_API_KEY } }
-        );
-        if (!response.ok) return;
-        const data = await response.json();
-        if (data.photos && data.photos.length > 0) {
-          const imageUrls = data.photos.map(photo => photo.src.landscape || photo.src.large2x || photo.src.large);
-          setBgImages(imageUrls);
-        }
-      } catch (error) {
-        console.error('Error fetching Pexels images:', error);
-      }
+    if (!products || products.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % products.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [products]);
+
+  const handleActionClick = () => {
+    if (onBuyNow) {
+      onBuyNow(currentProduct);
+    } else {
+      navigate('/shop');
     }
-    fetchPexelsPhotos();
-  }, []);
-
-  useEffect(() => {
-    if (bgImages.length === 0) return;
-    const slideInterval = setInterval(() => {
-      setCurrentBgIndex((prevIndex) => (prevIndex + 1) % bgImages.length);
-    }, 3000);
-    return () => clearInterval(slideInterval);
-  }, [bgImages]);
-
-  useEffect(() => {
-    const targetTime = new Date().getTime() + (3 * 86400 + 9 * 3600 + 50 * 60 + 3) * 1000;
-    const timerInterval = setInterval(() => {
-      const now = new Date().getTime();
-      const diff = targetTime - now;
-      if (diff > 0) {
-        setTimeLeft({
-          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((diff % (1000 * 60)) / 1000)
-        });
-      } else {
-        clearInterval(timerInterval);
-      }
-    }, 1000);
-    return () => clearInterval(timerInterval);
-  }, []);
-
-  const formatNumber = (num) => String(num).padStart(2, '0');
+  };
 
   // Font style constant for SF Pro family
   const sfProFontStyle = {
@@ -78,97 +78,81 @@ export default function HeroSection() {
   };
 
   return html`
+
     <!-- Load SF Pro Display Web Font CDN for devices without native Apple fonts -->
     <link 
       rel="stylesheet" 
       href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
     />
-
+    
     <!-- SECTION: Full edge-to-edge viewport dimensions -->
     <section 
-    style=${sfProFontStyle}
-    class="relative w-full h-[750px] rounded-none rounded-b-[40px] sm:rounded-b-[60px] md:rounded-b-[82px] overflow-hidden bg-black select-none flex flex-col justify-between m-0 p-0"
-  >
-      
-      <!-- Slide Track Background -->
-      <div class="absolute inset-0 w-full h-full overflow-hidden bg-zinc-900">
-        <div 
-          class="w-full h-full flex transition-transform duration-700 ease-in-out"
-          style=${{ transform: `translateX(-${currentBgIndex * 100}%)` }}
-        >
-          ${bgImages.map(
-            (bgUrl) => html`
-              <div
-                key=${bgUrl}
-                class="w-full h-full flex-shrink-0 bg-cover bg-center"
-                style=${{ backgroundImage: `url(${bgUrl})` }}
-              />
-            `
-          )}
-        </div>
+      style=${sfProFontStyle}
+      class="relative w-full h-[500px] lg:h-[750px] rounded-none rounded-b-[40px] sm:rounded-b-[60px] md:rounded-b-[82px] overflow-hidden bg-black select-none flex flex-col justify-between m-0 p-0"
+    >
+      <!-- Background Image Track with Smooth Slide Animation -->
+      <div 
+        class="absolute inset-0 w-full h-full flex transition-transform duration-700 ease-out"
+        style=${{ transform: `translateX(-${activeIndex * 100}%)` }}
+      >
+        ${products.map(
+          (prod) => html`
+            <div
+              key=${prod.id || prod.title}
+              class="w-full h-full flex-shrink-0 bg-cover bg-center"
+              style=${{ backgroundImage: `url(${prod.image})` }}
+            />
+          `
+        )}
       </div>
 
-      <!-- Dark Gradient Overlay for text contrast -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/40"></div>
+      <!-- Vignette Gradient Overlay to ensure text readability -->
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
 
-      <!-- Content Container -->
-<div class="relative z-10 w-full min-h-screen max-w-7xl mx-auto px-6 sm:px-12 pt-32 pb-16 flex flex-col justify-end">        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
+      <!-- Content Overlay (Left Aligned Text & Button) -->
+      <div class="absolute inset-0 p-8 sm:p-12 md:p-16 flex flex-col justify-end z-10">
+        <div class="max-w-xl space-y-3 sm:space-y-4">
           
-          <div class="animate-bounce-in-left">
-            <h1 class="text-white font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.88] uppercase">
-              NEED<br />
-              PREMIUM<br />
-              AUDIO GEAR?
-            </h1>
-          </div>
+          <!-- Tag Line -->
+          <span class="block text-white text-base sm:text-xl font-bold tracking-widest uppercase opacity-95 drop-shadow-md">
+            ${currentProduct.tag}
+          </span>
 
-          <div class="animate-bounce-in-right flex flex-col items-start lg:items-end text-left lg:text-right space-y-4">
-            <span class="text-white text-xs sm:text-sm font-extrabold tracking-widest uppercase opacity-90">
-              LIMITED-TIME OFFER
-            </span>
+          <!-- Product Title -->
+          <h2 class="text-white text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-[1.05] drop-shadow-lg">
+            ${currentProduct.title}
+          </h2>
 
-            <h2 class="text-white text-3xl sm:text-5xl font-black uppercase leading-none tracking-tight">
-              AUDIO GEAR<br />
-              PRICE DROP
-            </h2>
-
-            <div class="flex items-center gap-2 sm:gap-3 pt-2">
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.days)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">DAYS</span>
-              </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
-
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.hours)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">HRS</span>
-              </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
-
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.minutes)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">MIN</span>
-              </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
-
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.seconds)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">SEC</span>
-              </div>
-            </div>
-
-            <div class="pt-3">
-              <${Link} 
-                to="/shop" 
-                class="inline-block px-8 py-3 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-extrabold text-sm tracking-wider uppercase rounded-full shadow-lg shadow-red-900/40 transition-all duration-200"
-              >
-                SHOP NOW
-              <//>
-            </div>
+          <!-- Buy / Shop Action Button -->
+          <div class="pt-2 sm:pt-4">
+            <${FilledButton} onClick=${handleActionClick}>
+              BUY NOW
+            <//>
           </div>
 
         </div>
       </div>
+
+      <!-- Pagination Dots (Bottom Right Aligned) -->
+      <div class="absolute bottom-6 right-8 sm:bottom-10 sm:right-12 z-20 flex items-center gap-3">
+        ${products.map(
+          (_, idx) => html`
+            <button
+              key=${idx}
+              type="button"
+              onClick=${() => setActiveIndex(idx)}
+              aria-label="Go to slide ${idx + 1}"
+              class="transition-all duration-300 focus:outline-none cursor-pointer rounded-full ${
+                activeIndex === idx
+                  ? 'w-4 h-4 bg-white shadow-md scale-110'
+                  : 'w-2.5 h-2.5 bg-white/50 hover:bg-white/80'
+              }"
+            ></button>
+          `
+        )}
+      </div>
+
     </section>
   `;
 }

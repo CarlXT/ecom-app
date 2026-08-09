@@ -87,7 +87,7 @@ export default function HeroSection() {
     <!-- SECTION: Full edge-to-edge viewport dimensions -->
     <section 
     style=${sfProFontStyle}
-    class="relative w-full h-[750px] rounded-none rounded-b-[40px] sm:rounded-b-[60px] md:rounded-b-[82px] overflow-hidden bg-black select-none flex flex-col justify-between m-0 p-0"
+    class="relative w-full h-[500px] lg:h-[750px] rounded-none rounded-b-[40px] sm:rounded-b-[60px] md:rounded-b-[82px] overflow-hidden bg-black select-none flex flex-col justify-between m-0 p-0"
   >
       
       <!-- Slide Track Background -->
@@ -112,10 +112,10 @@ export default function HeroSection() {
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/40"></div>
 
       <!-- Content Container -->
-<div class="relative z-10 w-full min-h-screen max-w-7xl mx-auto px-6 sm:px-12 pt-32 pb-16 flex flex-col justify-end">        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
+      <div class="relative z-10 w-full min-h-screen max-w-7xl mx-auto px-6 sm:px-12 pt-32 pb-82 lg:pb-16 flex flex-col justify-end">        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
           
           <div class="animate-bounce-in-left">
-            <h1 class="text-white font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.88] uppercase">
+            <h1 class="text-white font-extrabold text-xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.88] uppercase">
               NEED<br />
               PREMIUM<br />
               AUDIO GEAR?
@@ -127,33 +127,33 @@ export default function HeroSection() {
               LIMITED-TIME OFFER
             </span>
 
-            <h2 class="text-white text-3xl sm:text-5xl font-black uppercase leading-none tracking-tight">
+            <h2 class="text-white text-xl sm:text-5xl font-black uppercase leading-none tracking-tight">
               AUDIO GEAR<br />
               PRICE DROP
             </h2>
 
-            <div class="flex items-center gap-2 sm:gap-3 pt-2">
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.days)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">DAYS</span>
+            <div class="flex items-center gap-1.5 sm:gap-3 pt-2">
+              <div class="flex flex-col items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
+                <span class="text-xs sm:text-xl font-black leading-none">${formatNumber(timeLeft.days)}</span>
+                <span class="text-[7px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">DAYS</span>
               </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
+              <span class="text-white font-black text-sm sm:text-2xl pb-1">:</span>
 
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.hours)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">HRS</span>
+              <div class="flex flex-col items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
+                <span class="text-xs sm:text-xl font-black leading-none">${formatNumber(timeLeft.hours)}</span>
+                <span class="text-[7px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">HRS</span>
               </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
+              <span class="text-white font-black text-sm sm:text-2xl pb-1">:</span>
 
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.minutes)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">MIN</span>
+              <div class="flex flex-col items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
+                <span class="text-xs sm:text-xl font-black leading-none">${formatNumber(timeLeft.minutes)}</span>
+                <span class="text-[7px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">MIN</span>
               </div>
-              <span class="text-white font-black text-lg sm:text-2xl pb-1">:</span>
+              <span class="text-white font-black text-sm sm:text-2xl pb-1">:</span>
 
-              <div class="flex flex-col items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
-                <span class="text-sm sm:text-xl font-black leading-none">${formatNumber(timeLeft.seconds)}</span>
-                <span class="text-[8px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">SEC</span>
+              <div class="flex flex-col items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-red-600/90 border border-red-500/50 shadow-lg text-white">
+                <span class="text-xs sm:text-xl font-black leading-none">${formatNumber(timeLeft.seconds)}</span>
+                <span class="text-[7px] sm:text-[10px] font-bold tracking-tighter uppercase opacity-80 mt-0.5">SEC</span>
               </div>
             </div>
 
@@ -166,7 +166,6 @@ export default function HeroSection() {
               <//>
             </div>
           </div>
-
         </div>
       </div>
     </section>

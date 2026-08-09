@@ -6,10 +6,11 @@ const html = htm.bind(React.createElement);
 
 export default function FilledButton({
   text = 'Buy Now',
+  children,
   onClick,
   to,
   type = 'button',
-  bgColor = 'bg-gradient-to-b from-red-500 via-red-600 to-red-800', // Default red pill gradient
+  bgColor = 'bg-gradient-to-b from-red-500 via-red-600 to-red-800',
   textColor = 'text-white',
   className = '',
   width = 'w-[196px]',
@@ -35,12 +36,10 @@ export default function FilledButton({
         ${className}
       `}
     >
-      <!-- Top subtle highlight glow -->
       <span class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/20 pointer-events-none rounded-full"></span>
 
-      <!-- Button Text -->
       <span class="relative z-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-        ${text}
+        ${children || text}
       </span>
     </button>
   `;

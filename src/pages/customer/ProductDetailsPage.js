@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import htm from 'htm';
+
+import { CustomerLayout } from '../../layouts/CustomerLayout.js';
+import ProductDetailSection from '../../components/customer/details/ProductDetailSection.js';
+import RelatedProductSection from '../../components/customer/details/RelatedProductSection.js';
+import CartModal from '../../components/ui/modals/customer/CartModal.js';
 
 const html = htm.bind(React.createElement);
 
-// Add 'export default' before function
-export default function ProducDetailsPage() {
+export default function ProductDetailsPage() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
   return html`
-    <div class="p-8">
-      <h1 class="text-3xl font-bold">Welcome to Product Details page</h1>
-    </div>
+    <${CustomerLayout} onOpenCart=${() => setIsCartOpen(true)}>
+      <div>
+        <${ProductDetailSection} />
+        <${RelatedProductSection} />
+      </div>
+
+      <${CartModal} 
+        isOpen=${isCartOpen} 
+        onClose=${() => setIsCartOpen(false)} 
+        cartItems=${cartItems}
+      />
+    <//>
   `;
 }
