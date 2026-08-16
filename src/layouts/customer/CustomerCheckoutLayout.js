@@ -23,34 +23,34 @@ export function CustomerCheckoutLayout({
   }, []);
 
   return html`
-    <div class="min-h-screen w-full bg-[#121214] text-white flex flex-col overflow-x-hidden">
+    <div className="min-h-screen w-full bg-[#121214] text-white flex flex-col overflow-x-hidden">
       
-      <header class=${`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+      <header className=${`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
         isScrolled 
           ? 'bg-[#121214]/95 backdrop-blur-md border-b border-zinc-800/50 shadow-xl py-4' 
           : 'bg-transparent border-b border-transparent py-6'
       }`}>
-        <div class="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
           <button 
             type="button"
             onClick=${onClose || (() => window.history.back())}
-            class="flex items-center gap-2 text-zinc-300 hover:text-white text-lg font-bold transition-colors cursor-pointer focus:outline-none"
+            className="flex items-center gap-2 text-zinc-300 hover:text-white text-lg font-bold transition-colors cursor-pointer focus:outline-none"
           >
-            <span class="text-xl">✕</span>
+            <span className="text-xl">✕</span>
             <span>${title}</span>
           </button>
 
-          <${Link} to="/" class="hover:opacity-90 transition-opacity">
-            <img src=${headyDarkLogo} alt="Heady Logo" class="h-10 w-auto" />
+          <${Link} to="/" className="hover:opacity-90 transition-opacity">
+            <img src=${headyDarkLogo} alt="Heady Logo" className="h-10 w-auto" />
           <//> 
         </div>
       </header>
 
-      <main class="w-full max-w-7xl mx-auto px-6 sm:px-12 flex-grow pt-28 pb-12">
+      <main className="w-full max-w-7xl mx-auto px-6 sm:px-12 flex-grow pt-28 pb-12">
         ${children}
       </main>
 
-      <footer class="text-zinc-600 text-xs text-center py-4 border-t border-zinc-800/50">
+      <footer className="text-zinc-600 text-xs text-center py-4 border-t border-zinc-800/50">
         © 2026 Heady. All rights reserved.
       </footer>
 

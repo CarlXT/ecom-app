@@ -59,14 +59,14 @@ export default function CheckoutPage({ cartItems = [], onCompleteOrder }) {
 
   return html`
     <${CustomerCheckoutLayout} onClose=${() => window.history.back()}>
-      <div class="w-full">
+      <div className="w-full">
         <${CheckoutStepperSection} 
           step=${step} 
           onStepChange=${(nextStep) => setStep(nextStep)} 
         />
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div class="lg:col-span-7 space-y-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="lg:col-span-7 space-y-6">
             ${step === 1 && html`
               <${ShippingDetailsSection} 
                 formData=${formData} 

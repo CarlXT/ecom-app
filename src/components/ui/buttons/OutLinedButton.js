@@ -26,7 +26,7 @@ export function OutlinedButton({
     <button
       type="button"
       onClick=${handleClick}
-      class="w-[169px] h-[68px] rounded-[1000px] border border-1 ${isSelected ? 'border-red-600' : 'border-white'} text-white text-[24px] font-normal flex items-center justify-center transition-colors duration-200 cursor-pointer bg-transparent focus:outline-none select-none font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]"
+      className="w-[169px] h-[68px] rounded-[1000px] border border-1 ${isSelected ? 'border-red-600' : 'border-white'} text-white text-[24px] font-normal flex items-center justify-center transition-colors duration-200 cursor-pointer bg-transparent focus:outline-none select-none font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]"
     >
       ${label}
     </button>

@@ -62,54 +62,54 @@ export function ProductCard(props) {
   const targetUrl = productUrl || `/product.html?id=${id || encodeURIComponent(title)}`;
 
   return html`
-    <div class="w-full max-w-[436px] bg-transparent text-white font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] flex flex-col justify-between p-1.5 sm:p-2.5 select-none box-border">
+    <div className="w-full max-w-[436px] bg-transparent text-white font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] flex flex-col justify-between p-1.5 sm:p-2.5 select-none box-border">
       
       <!-- Product Image -->
-      <div class="w-full aspect-square overflow-hidden rounded-2xl sm:rounded-[32px] mx-auto flex-shrink-0 bg-zinc-900">
+      <div className="w-full aspect-square overflow-hidden rounded-2xl sm:rounded-[32px] mx-auto flex-shrink-0 bg-zinc-900">
         <img 
           src=${image} 
           alt=${title} 
-          class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
       </div>
 
       <!-- Card Details Container -->
-      <div class="px-0.5 sm:px-1 flex flex-col justify-between flex-grow pt-2 sm:pt-4 pb-0.5 gap-1.5 sm:gap-3">
+      <div className="px-0.5 sm:px-1 flex flex-col justify-between flex-grow pt-2 sm:pt-4 pb-0.5 gap-1.5 sm:gap-3">
         
         <!-- Category & Dynamic Stock Badge Row -->
-        <div class="flex items-center justify-between text-[11px] xs:text-xs sm:text-[24px] font-light leading-tight text-zinc-300 sm:text-zinc-100">
-          <span class="truncate max-w-[50%]">${category}</span>
+        <div className="flex items-center justify-between text-[11px] xs:text-xs sm:text-[24px] font-light leading-tight text-zinc-300 sm:text-zinc-100">
+          <span className="truncate max-w-[50%]">${category}</span>
           
-          <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <span>${stock > 0 ? `${stock} stocks` : 'Out of stock'}</span>
-            <span class=${`w-2.5 h-2.5 sm:w-5 sm:h-5 rounded-full inline-block transition-colors duration-300 ${getBadgeColorClass()}`}></span>
+            <span className=${`w-2.5 h-2.5 sm:w-5 sm:h-5 rounded-full inline-block transition-colors duration-300 ${getBadgeColorClass()}`}></span>
           </div>
         </div>
 
         <!-- Product Name -->
-        <h2 class="text-sm sm:text-[32px] font-black uppercase tracking-tight leading-snug sm:leading-[1.05] text-white line-clamp-2">
+        <h2 className="text-sm sm:text-[32px] font-black uppercase tracking-tight leading-snug sm:leading-[1.05] text-white line-clamp-2">
           ${title}
         </h2>
 
         <!-- Price & Action Icons Row -->
-        <div class="flex items-center justify-between pt-0.5 sm:pt-1">
+        <div className="flex items-center justify-between pt-0.5 sm:pt-1">
           <!-- Price Label -->
-          <span class="text-sm xs:text-base sm:text-[32px] font-bold sm:font-normal tracking-tight text-white whitespace-nowrap">
+          <span className="text-sm xs:text-base sm:text-[32px] font-bold sm:font-normal tracking-tight text-white whitespace-nowrap">
             ${currency} ${formattedPrice}
           </span>
 
           <!-- Icons Container -->
-          <div class="flex items-center gap-2 sm:gap-5 text-white shrink-0">
+          <div className="flex items-center gap-2 sm:gap-5 text-white shrink-0">
             <!-- View Details Button -->
             <a 
               href=${targetUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick=${handleViewDetails}
-              class="p-1 hover:text-red-400 transition-colors focus:outline-none cursor-pointer flex items-center justify-center active:scale-90"
+              className="p-1 hover:text-red-400 transition-colors focus:outline-none cursor-pointer flex items-center justify-center active:scale-90"
               aria-label="View Details"
             >
-              <svg class="w-5 h-4 sm:w-9 sm:h-7 stroke-current" viewBox="0 0 36 20" fill="none" strokeWidth="3" strokeLinecap="round">
+              <svg className="w-5 h-4 sm:w-9 sm:h-7 stroke-current" viewBox="0 0 36 20" fill="none" strokeWidth="3" strokeLinecap="round">
                 <line x1="2" y1="5" x2="34" y2="5" />
                 <line x1="2" y1="15" x2="26" y2="15" />
               </svg>
@@ -120,13 +120,13 @@ export function ProductCard(props) {
               onClick=${handleAddToCart}
               disabled=${isOutOfStock}
               type="button"
-              class=${`p-1 hover:opacity-80 transition-all focus:outline-none cursor-pointer flex items-center justify-center active:scale-90 ${
+              className=${`p-1 hover:opacity-80 transition-all focus:outline-none cursor-pointer flex items-center justify-center active:scale-90 ${
                 isOutOfStock ? 'opacity-40 cursor-not-allowed' : ''
               }`}
               aria-label="Remove"
             >
-              <div class="w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center shrink-0">
-                <div class="w-2.5 sm:w-4 h-[2px] sm:h-[3px] bg-[#3b3642] rounded-full"></div>
+              <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center shrink-0">
+                <div className="w-2.5 sm:w-4 h-[2px] sm:h-[3px] bg-[#3b3642] rounded-full"></div>
               </div>
             </button>
           </div>

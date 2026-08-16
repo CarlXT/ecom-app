@@ -9,7 +9,7 @@ const DefaultMicIcon = html`
     xmlns="http://www.w3.org/2000/svg" 
     viewBox="0 0 24 24" 
     fill="currentColor" 
-    class="w-16 h-16 text-zinc-200"
+    className="w-16 h-16 text-zinc-200"
   >
     <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v6.75a3.75 3.75 0 1 1-7.5 0V4.5Z" />
     <path d="M6 10.5a.75.75 0 0 1 .75.75 5.25 5.25 0 1 0 10.5 0 .75.75 0 0 1 1.5 0 6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709A.75.75 0 0 1 6 10.5Z" />
@@ -37,7 +37,7 @@ export default function CategoryButton({
     <button
       onClick=${onClick}
       style=${fontStyle}
-      class=${`
+      className=${`
         group relative flex flex-col items-center justify-center gap-4
         w-[271px] h-[241px] rounded-[32px] overflow-hidden
         bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-500 via-red-600 to-red-900
@@ -47,15 +47,15 @@ export default function CategoryButton({
       `}
     >
       <!-- Subtle top inner glow highlight -->
-      <div class="absolute inset-0 rounded-[32px] bg-gradient-to-b from-white/20 via-transparent to-black/30 pointer-events-none"></div>
+      <div className="absolute inset-0 rounded-[32px] bg-gradient-to-b from-white/20 via-transparent to-black/30 pointer-events-none"></div>
 
       <!-- Dynamic Icon Container -->
-      <div class="relative z-10 transition-transform duration-200 group-hover:scale-110">
+      <div className="relative z-10 transition-transform duration-200 group-hover:scale-110">
         ${icon}
       </div>
 
       <!-- Dynamic Label Text -->
-      <span class="relative z-10 text-3xl font-normal tracking-tight text-white drop-shadow-sm">
+      <span className="relative z-10 text-3xl font-normal tracking-tight text-white drop-shadow-sm">
         ${label}
       </span>
     </button>

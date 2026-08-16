@@ -11,8 +11,8 @@ export function DropDownMenuButton({
 }) {
   // Default circular minus icon matching the screenshot
   const defaultIcon = html`
-    <div class="w-8 h-8 rounded-full bg-[#e3e3e5] flex items-center justify-center shrink-0">
-      <div class="w-4 h-[3px] bg-[#3b3642] rounded-full"></div>
+    <div className="w-8 h-8 rounded-full bg-[#e3e3e5] flex items-center justify-center shrink-0">
+      <div className="w-4 h-[3px] bg-[#3b3642] rounded-full"></div>
     </div>
   `;
 
@@ -20,7 +20,7 @@ export function DropDownMenuButton({
     <button
       type="button"
       onClick=${onClick}
-      class=${`w-full px-5 py-3.5 bg-[#3b3642] hover:bg-[#484252] border border-white rounded-[10px] text-white text-[32px] font-normal flex items-center gap-4 transition-colors cursor-pointer select-none font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] ${className}`}
+      className=${`w-full px-5 py-3.5 bg-[#3b3642] hover:bg-[#484252] border border-white rounded-[10px] text-white text-[32px] font-normal flex items-center gap-4 transition-colors cursor-pointer select-none font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] ${className}`}
     >
       ${icon !== undefined ? icon : defaultIcon}
       <span>${label}</span>

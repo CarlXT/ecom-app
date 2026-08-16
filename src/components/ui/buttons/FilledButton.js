@@ -20,7 +20,7 @@ export default function FilledButton({
     <button
       type=${to ? undefined : type}
       onClick=${onClick}
-      class=${`
+      className=${`
         relative inline-flex items-center justify-center 
         ${width} ${height} 
         rounded-full 
@@ -36,9 +36,9 @@ export default function FilledButton({
         ${className}
       `}
     >
-      <span class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/20 pointer-events-none rounded-full"></span>
+      <span className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/20 pointer-events-none rounded-full"></span>
 
-      <span class="relative z-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+      <span className="relative z-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
         ${children || text}
       </span>
     </button>
@@ -46,7 +46,7 @@ export default function FilledButton({
 
   if (to) {
     return html`
-      <${Link} to=${to} class="inline-block no-underline">
+      <${Link} to=${to} className="inline-block no-underline">
         ${content}
       <//>
     `;

@@ -49,7 +49,7 @@ export function Link({ to, children, className = '' }) {
   };
 
   return html`
-    <a href=${`#${to}`} onClick=${handleClick} class=${className}>
+    <a href=${`#${to}`} onClick=${handleClick} className=${className}>
       ${children}
     </a>
   `;

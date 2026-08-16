@@ -36,7 +36,7 @@ export default function ShopPage({ products = [] }) {
   };
 
   return html`
-    <div class="min-h-screen bg-[#1e1e24] text-white">
+    <div className="min-h-screen bg-[#1e1e24] text-white">
       <${BannerSection} />
       
       <!-- Pass products array and handleAddToCart handler to collection grid -->
