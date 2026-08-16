@@ -27,11 +27,11 @@ export function InputTextField({
 
   return html`
     <div 
-      class=${`flex flex-col justify-center px-5 py-3 rounded-[10px] border border-white bg-[#1a1a1c] text-white w-full transition-colors focus-within:border-white font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] ${className}`}
+      className=${`flex flex-col justify-center px-5 py-3 rounded-[10px] border border-white bg-[#1a1a1c] text-white w-full transition-colors focus-within:border-white font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] ${className}`}
     >
       <label 
         htmlFor=${id || name}
-        class="text-[20px] font-thin text-zinc-300 leading-snug tracking-wide select-none cursor-pointer"
+        className="text-[20px] font-thin text-zinc-300 leading-snug tracking-wide select-none cursor-pointer"
       >
         ${label}
       </label>
@@ -44,7 +44,7 @@ export function InputTextField({
         onInput=${handleInputChange}
         placeholder=${placeholder}
         disabled=${disabled}
-        class="bg-transparent text-[32px] font-thin text-white focus:outline-none w-full p-0 m-0 border-none leading-tight tracking-wide placeholder-zinc-600 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]"
+        className="bg-transparent text-[32px] font-thin text-white focus:outline-none w-full p-0 m-0 border-none leading-tight tracking-wide placeholder-zinc-600 font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif]"
         ...${props}
       />
     </div>

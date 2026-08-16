@@ -26,16 +26,16 @@ export default function FeaturedCarousel() {
 
   return html`
     <!-- Carousel Outer Wrapper -->
-    <div class="relative w-full max-w-6xl mx-auto px-4 py-12 overflow-hidden">
+    <div className="relative w-full max-w-6xl mx-auto px-4 py-12 overflow-hidden">
       
       <!-- Track Slider -->
       <div 
-        class="flex transition-transform duration-500 ease-out"
+        className="flex transition-transform duration-500 ease-out"
         style=${{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         ${products.map(
           (product) => html`
-            <div key=${product.id} class="w-full flex-shrink-0 px-2">
+            <div key=${product.id} className="w-full flex-shrink-0 px-2">
               <${FeaturedProductCard}
                 tagline=${product.tagline}
                 title=${product.title}
@@ -50,16 +50,16 @@ export default function FeaturedCarousel() {
       </div>
 
       <!-- Controls -->
-      <div class="flex justify-center gap-4 mt-6">
+      <div className="flex justify-center gap-4 mt-6">
         <button 
           onClick=${() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-          class="p-3 bg-zinc-800 text-white rounded-full hover:bg-zinc-700"
+          className="p-3 bg-zinc-800 text-white rounded-full hover:bg-zinc-700"
         >
           ←
         </button>
         <button 
           onClick=${() => setCurrentIndex((prev) => Math.min(products.length - 1, prev + 1))}
-          class="p-3 bg-zinc-800 text-white rounded-full hover:bg-zinc-700"
+          className="p-3 bg-zinc-800 text-white rounded-full hover:bg-zinc-700"
         >
           →
         </button>

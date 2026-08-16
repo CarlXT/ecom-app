@@ -29,43 +29,43 @@ export default function FeaturedProductCard({
     <!-- Carousel Item Container (flex-shrink-0 w-full makes it slide/carousel-ready) -->
     <div 
       style=${fontStyle}
-      class=${`
+      className=${`
         flex-shrink-0 w-full max-w-[1000px] mx-auto bg-[#171719] text-white 
         rounded-[36px] p-6 sm:p-8 md:p-10 shadow-2xl border border-zinc-800/60 
         select-none ${className}
       `}
     >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
         
         <!-- Left: Image Container -->
-        <div class="w-full h-[320px] sm:h-[400px] md:h-[420px] rounded-[28px] overflow-hidden bg-zinc-900 flex-shrink-0">
+        <div className="w-full h-[320px] sm:h-[400px] md:h-[420px] rounded-[28px] overflow-hidden bg-zinc-900 flex-shrink-0">
           <img 
             src=${image} 
             alt=${title} 
-            class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+            className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
           />
         </div>
 
         <!-- Right: Text & Action Content -->
-        <div class="flex flex-col justify-center items-start space-y-4 md:space-y-6">
+        <div className="flex flex-col justify-center items-start space-y-4 md:space-y-6">
           
           <!-- Tagline Header -->
-          <span class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-zinc-300">
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-zinc-300">
             ${tagline}
           </span>
 
           <!-- Product Title -->
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.05] text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.05] text-white">
             ${title}
           </h2>
 
           <!-- Description -->
-          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed font-normal max-w-md">
+          <p className="text-zinc-300 text-sm sm:text-base leading-relaxed font-normal max-w-md">
             ${description}
           </p>
 
           <!-- Buttons Row -->
-          <div class="flex items-center gap-4 pt-2 sm:pt-4 w-full flex-wrap">
+          <div className="flex items-center gap-4 pt-2 sm:pt-4 w-full flex-wrap">
             <!-- Buy Now Button (Reusing your FilledButton) -->
             <${FilledButton}
               text="Buy Now"
@@ -80,7 +80,7 @@ export default function FeaturedProductCard({
             <button
               type="button"
               onClick=${onAddToCartClick}
-              class="
+              className="
                 w-[140px] sm:w-[160px] h-[52px] sm:h-[56px] rounded-full 
                 bg-white text-black font-extrabold text-base sm:text-lg tracking-tight 
                 hover:bg-zinc-200 active:scale-95 transition-all duration-200 
