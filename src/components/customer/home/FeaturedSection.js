@@ -169,9 +169,9 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
 
         <!-- Carousel Pagination Dots -->
         <div className="flex justify-center items-center gap-2.5 pt-4">
-          ${sampleFeaturedProducts.map((_, idx) => html`
+          ${sampleFeaturedProducts.map((slide, idx) => html`
             <button
-              key=${idx}
+              key=${`${slide.title || 'featured-slide'}-${idx}`}
               onClick=${() => setActiveIndex(idx)}
               aria-label="Go to slide ${idx + 1}"
               className="w-2.5 h-2.5 rounded-full transition-all focus:outline-none cursor-pointer ${activeIndex === idx ? 'bg-white scale-125' : 'bg-zinc-600 hover:bg-zinc-400'}"

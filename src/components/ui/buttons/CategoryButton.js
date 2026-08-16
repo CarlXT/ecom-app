@@ -29,11 +29,6 @@ export default function CategoryButton({
 
   return html`
     <!-- Load SF Pro font stylesheet -->
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <button
       onClick=${onClick}
       style=${fontStyle}

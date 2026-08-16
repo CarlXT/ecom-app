@@ -43,11 +43,6 @@ export default function RelatedProductSection({
   };
 
   return html`
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <section style=${sfProStyle} className="w-full bg-[#18181b] py-8 sm:py-16 px-2 sm:px-8 text-white select-none">
       <div className="max-w-7xl mx-auto space-y-6 sm:space-y-10">
         
@@ -63,9 +58,9 @@ export default function RelatedProductSection({
 
         <!-- Product Cards Grid: 2 cols on mobile, 3 cols on desktop -->
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 pt-2 w-full">
-          ${displayedProducts.map((product) => html`
+          ${displayedProducts.map((product, idx) => html`
             <${ProductCard} 
-              key=${product.id || product.title}
+              key=${product.id || product.title || `related-product-${idx}`}
               id=${product.id}
               productUrl=${`/product.html?id=${product.id}`}
               ...${product}

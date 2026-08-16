@@ -20,12 +20,6 @@ export default function FeaturedProductCard({
   };
 
   return html`
-    <!-- Load SF Pro CDN Font -->
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <!-- Carousel Item Container (flex-shrink-0 w-full makes it slide/carousel-ready) -->
     <div 
       style=${fontStyle}

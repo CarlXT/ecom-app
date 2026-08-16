@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { config } from 'config';
+import { config } from '../../../config.js';
 import htm from 'htm';
 
 const html = htm.bind(React.createElement);
@@ -71,6 +71,11 @@ export default function HeroSection() {
 
   const formatNumber = (num) => String(num).padStart(2, '0');
 
+  // Debug: log slide keys to help trace React key warnings in dev console
+  if (typeof window !== 'undefined' && window?.console?.debug) {
+    console.debug('HeroSection slide keys:', bgImages.map((_, i) => `hero-slide-${i}`));
+  }
+
   // Font style constant for SF Pro family
   const sfProFontStyle = {
     fontFamily: '"SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -78,12 +83,6 @@ export default function HeroSection() {
   };
 
   return html`
-    <!-- Load SF Pro Display Web Font CDN for devices without native Apple fonts -->
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <!-- SECTION: Full edge-to-edge viewport dimensions -->
     <section 
     style=${sfProFontStyle}
@@ -97,9 +96,9 @@ export default function HeroSection() {
           style=${{ transform: `translateX(-${currentBgIndex * 100}%)` }}
         >
           ${bgImages.map(
-            (bgUrl) => html`
+            (bgUrl, idx) => html`
               <div
-                key=${bgUrl}
+                key=${`hero-slide-${bgUrl}-${idx}`}
                 className="w-full h-full flex-shrink-0 bg-cover bg-center"
                 style=${{ backgroundImage: `url(${bgUrl})` }}
               />

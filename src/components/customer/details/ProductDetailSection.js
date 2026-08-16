@@ -53,11 +53,6 @@ export default function ProductDetailSection({ product = {}, onAddToCart, onClos
   };
 
   return html`
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <section style=${sfProStyle} className="w-full bg-[#18181b] text-white pt-16 sm:pt-20 md:pt-24 px-4 sm:px-8 md:px-12 pb-8 select-none">
       <div className="max-w-6xl mx-auto space-y-6">
 

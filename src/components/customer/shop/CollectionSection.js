@@ -60,11 +60,6 @@ export default function CollectionSection({
   };
 
   return html`
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-
     <section 
       style=${sfProFontStyle}
       className="w-full bg-[#18181b] py-8 sm:py-20 px-2 sm:px-8 text-white select-none overflow-hidden"
@@ -83,9 +78,9 @@ export default function CollectionSection({
 
         <!-- Dynamic Category Filter Tabs -->
         <nav className="flex justify-start sm:justify-center items-center gap-5 sm:gap-12 text-sm sm:text-base font-semibold pt-1 overflow-x-auto w-full px-2 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          ${categoryList.map((cat) => html`
+          ${categoryList.map((cat, idx) => html`
             <button
-              key=${cat}
+              key=${`${cat}-${idx}`}
               type="button"
               onClick=${() => handleCategoryClick(cat)}
               className=${`transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
@@ -101,9 +96,9 @@ export default function CollectionSection({
 
         <!-- Product Grid Layout -->
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 pt-2 w-full justify-items-center">
-          ${finalProductList.map((product) => html`
+          ${finalProductList.map((product, idx) => html`
             <${ProductCard} 
-              key=${product.id || product.title}
+              key=${product.id || product.title || `collection-product-${idx}`}
               id=${product.id}
               productUrl=${`/product.html?id=${product.id}`}
               ...${product}

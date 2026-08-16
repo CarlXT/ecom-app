@@ -78,13 +78,6 @@ export default function BannerSection({
   };
 
   return html`
-
-    <!-- Load SF Pro Display Web Font CDN for devices without native Apple fonts -->
-    <link 
-      rel="stylesheet" 
-      href="https://fonts.cdnfonts.com/css/sf-pro-display-cdn" 
-    />
-    
     <!-- SECTION: Full edge-to-edge viewport dimensions -->
     <section 
       style=${sfProFontStyle}
@@ -96,9 +89,9 @@ export default function BannerSection({
         style=${{ transform: `translateX(-${activeIndex * 100}%)` }}
       >
         ${products.map(
-          (prod) => html`
+          (prod, idx) => html`
             <div
-              key=${prod.id || prod.title}
+              key=${prod.id || prod.title || `banner-slide-${idx}`}
               className="w-full h-full flex-shrink-0 bg-cover bg-center"
               style=${{ backgroundImage: `url(${prod.image})` }}
             />
@@ -137,9 +130,9 @@ export default function BannerSection({
       <!-- Pagination Dots (Bottom Right Aligned) -->
       <div className="absolute bottom-6 right-8 sm:bottom-10 sm:right-12 z-20 flex items-center gap-3">
         ${products.map(
-          (_, idx) => html`
+          (prod, idx) => html`
             <button
-              key=${idx}
+              key=${`${prod.id || prod.title || 'banner-dot'}-${idx}`}
               type="button"
               onClick=${() => setActiveIndex(idx)}
               aria-label="Go to slide ${idx + 1}"
