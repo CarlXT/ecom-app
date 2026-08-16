@@ -99,7 +99,7 @@ export default function HeroSection() {
           ${bgImages.map(
             (bgUrl, idx) => html`
               <div
-                key=${bgUrl || `bg-${idx}`}
+                            key=${`hero-slide-${idx}`}
                 className="w-full h-full flex-shrink-0 bg-cover bg-center"
                 style=${{ backgroundImage: `url(${bgUrl})` }}
               />

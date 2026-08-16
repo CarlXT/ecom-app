@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import htm from 'htm';
 
-const headyDarkLogo = new URL('../assets/logos/heady-dark.svg', import.meta.url).href;
+const headyDarkLogo = '/src/assets/logos/heady-dark.svg';
 
 const html = htm.bind(React.createElement);
 

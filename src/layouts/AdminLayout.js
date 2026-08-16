@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import htm from 'htm';
 
 // Asset paths resolved relative to runtime location
-const headyAdminLogo = new URL('../assets/logos/heady-admin-logo.svg', import.meta.url).href;
+const headyAdminLogo = '/src/assets/logos/heady-admin-logo.svg';
 
 const html = htm.bind(React.createElement);
 
