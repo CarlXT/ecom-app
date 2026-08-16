@@ -8,12 +8,12 @@ export function CategoryButton({ label, icon, isActive, onClick }) {
   return html`
     <button
       onClick=${onClick}
-      class="flex flex-col items-center justify-center p-6 bg-gradient-to-b from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white rounded-3xl transition-transform active:scale-95 shadow-lg aspect-square cursor-pointer focus:outline-none"
+      className="flex flex-col items-center justify-center p-6 bg-gradient-to-b from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white rounded-3xl transition-transform active:scale-95 shadow-lg aspect-square cursor-pointer focus:outline-none"
     >
-      <div class="mb-3">
+      <div className="mb-3">
         ${icon}
       </div>
-      <span class="text-sm sm:text-base font-medium tracking-tight">${label}</span>
+      <span className="text-sm sm:text-base font-medium tracking-tight">${label}</span>
     </button>
   `;
 }
@@ -64,7 +64,7 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
       id: 'mics',
       label: 'Microphones',
       icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
           <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
         </svg>
       `
@@ -73,7 +73,7 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
       id: 'headphones',
       label: 'Headphones',
       icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
           <path d="M12 3a9 9 0 00-9 9v7c0 1.1.9 2 2 2h3a1 1 0 001-1v-6a1 1 0 00-1-1H5v-1a7 7 0 0114 0v1h-2a1 1 0 00-1 1v6a1 1 0 001 1h3a2 2 0 002-2v-7a9 9 0 00-9-9z"/>
         </svg>
       `
@@ -82,8 +82,8 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
       id: 'filters',
       label: 'Filters',
       icon: html`
-        <svg class="w-8 h-8 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
-          <path stroke-linecap="round" d="M4 6h16M7 12h10M10 18h4"/>
+        <svg className="w-8 h-8 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
+          <path strokeLinecap="round" d="M4 6h16M7 12h10M10 18h4"/>
         </svg>
       `
     },
@@ -91,7 +91,7 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
       id: 'mounts',
       label: 'Mounts',
       icon: html`
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
           <path d="M12 15a3 3 0 100-6 3 3 0 000 6zm0-8a5 5 0 110 10 5 5 0 010-10zm-7 13h14v2H5v-2z"/>
         </svg>
       `
@@ -99,16 +99,16 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
   ];
 
   return html`
-    <section class="w-full bg-[#121214] text-white py-12 px-4 sm:px-8 font-['SF_Pro_Display',-apple-system,sans-serif]">
-      <div class="max-w-4xl mx-auto space-y-10">
+    <section className="w-full bg-[#121214] text-white py-12 px-4 sm:px-8 font-['SF_Pro_Display',-apple-system,sans-serif]">
+      <div className="max-w-4xl mx-auto space-y-10">
 
         <!-- Top Tagline Description -->
-        <p class="text-center text-zinc-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
+        <p className="text-center text-zinc-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
           Discover studio-grade dynamic mics, flat-response headphones, and heavy-duty mounting gear designed to elevate your production quality.
         </p>
 
         <!-- Category Grid (4 Red Category Buttons) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           ${categories.map((cat, idx) => html`
             <${CategoryButton}
               key=${cat.id}
@@ -120,45 +120,45 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
         </div>
 
         <!-- Featured Product Carousel Display -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-4">
           
           <!-- Product Image (Left Column) -->
-          <div class="md:col-span-6">
-            <div class="relative w-full aspect-square rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl">
+          <div className="md:col-span-6">
+            <div className="relative w-full aspect-square rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl">
               <img 
                 src=${currentProduct.image} 
                 alt=${currentProduct.title}
-                class="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-cover transition-opacity duration-300"
               />
             </div>
           </div>
 
           <!-- Product Details (Right Column) -->
-          <div class="md:col-span-6 space-y-4 text-left">
-            <span class="inline-block text-xs font-black tracking-widest text-zinc-300 uppercase">
+          <div className="md:col-span-6 space-y-4 text-left">
+            <span className="inline-block text-xs font-black tracking-widest text-zinc-300 uppercase">
               ${currentProduct.tag}
             </span>
 
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
               ${currentProduct.title}
             </h2>
 
-            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-zinc-300 text-sm sm:text-base leading-relaxed">
               ${currentProduct.description}
             </p>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-4 pt-2">
+            <div className="flex items-center gap-4 pt-2">
               <button
                 onClick=${() => onBuyNow && onBuyNow(currentProduct)}
-                class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
+                className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
               >
                 Buy Now
               </button>
               
               <button
                 onClick=${() => onAddToCart && onAddToCart(currentProduct)}
-                class="px-8 py-3 bg-white hover:bg-zinc-200 text-black font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
+                className="px-8 py-3 bg-white hover:bg-zinc-200 text-black font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
               >
                 Add to Cart
               </button>
@@ -168,13 +168,13 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
         </div>
 
         <!-- Carousel Pagination Dots -->
-        <div class="flex justify-center items-center gap-2.5 pt-4">
+        <div className="flex justify-center items-center gap-2.5 pt-4">
           ${sampleFeaturedProducts.map((_, idx) => html`
             <button
               key=${idx}
               onClick=${() => setActiveIndex(idx)}
               aria-label="Go to slide ${idx + 1}"
-              class="w-2.5 h-2.5 rounded-full transition-all focus:outline-none cursor-pointer ${activeIndex === idx ? 'bg-white scale-125' : 'bg-zinc-600 hover:bg-zinc-400'}"
+              className="w-2.5 h-2.5 rounded-full transition-all focus:outline-none cursor-pointer ${activeIndex === idx ? 'bg-white scale-125' : 'bg-zinc-600 hover:bg-zinc-400'}"
             ></button>
           `)}
         </div>

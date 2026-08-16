@@ -67,28 +67,28 @@ export default function CollectionSection({
 
     <section 
       style=${sfProFontStyle}
-      class="w-full bg-[#18181b] py-8 sm:py-20 px-2 sm:px-8 text-white select-none overflow-hidden"
+      className="w-full bg-[#18181b] py-8 sm:py-20 px-2 sm:px-8 text-white select-none overflow-hidden"
     >
-      <div class="max-w-7xl mx-auto space-y-6 sm:space-y-12">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-12">
         
         <!-- Section Header -->
-        <div class="text-center space-y-2 sm:space-y-3 px-2">
-          <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+        <div className="text-center space-y-2 sm:space-y-3 px-2">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
             The Heady Collection
           </h2>
-          <p class="text-zinc-400 text-xs sm:text-base font-normal tracking-wide max-w-xl mx-auto">
+          <p className="text-zinc-400 text-xs sm:text-base font-normal tracking-wide max-w-xl mx-auto">
             Studio-grade recording gear and desktop workstation essentials.
           </p>
         </div>
 
         <!-- Dynamic Category Filter Tabs -->
-        <nav class="flex justify-start sm:justify-center items-center gap-5 sm:gap-12 text-sm sm:text-base font-semibold pt-1 overflow-x-auto w-full px-2 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <nav className="flex justify-start sm:justify-center items-center gap-5 sm:gap-12 text-sm sm:text-base font-semibold pt-1 overflow-x-auto w-full px-2 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           ${categoryList.map((cat) => html`
             <button
               key=${cat}
               type="button"
               onClick=${() => handleCategoryClick(cat)}
-              class=${`transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
+              className=${`transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                 activeCategory === cat 
                   ? 'text-[#E50914] font-bold' 
                   : 'text-zinc-300 hover:text-white'
@@ -100,7 +100,7 @@ export default function CollectionSection({
         </nav>
 
         <!-- Product Grid Layout -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 pt-2 w-full justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 pt-2 w-full justify-items-center">
           ${finalProductList.map((product) => html`
             <${ProductCard} 
               key=${product.id || product.title}
@@ -114,7 +114,7 @@ export default function CollectionSection({
         </div>
 
         <!-- Load More Button -->
-        <div class="flex justify-center pt-4 sm:pt-8">
+        <div className="flex justify-center pt-4 sm:pt-8">
           <${FilledButton} 
             text="See more products"
             onClick=${onLoadMore}
@@ -122,7 +122,7 @@ export default function CollectionSection({
             textColor="text-black"
             width="w-auto px-8 sm:px-10"
             height="h-[46px] sm:h-[52px]"
-            class="shadow-white/10 text-sm sm:text-base font-semibold hover:bg-zinc-200 cursor-pointer"
+            className="shadow-white/10 text-sm sm:text-base font-semibold hover:bg-zinc-200 cursor-pointer"
           />
         </div>
 

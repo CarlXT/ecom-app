@@ -6,8 +6,8 @@ const html = htm.bind(React.createElement);
 // Add 'export default' before function
 export default function LoginPage() {
   return html`
-    <div class="p-8">
-      <h1 class="text-3xl font-bold">Welcome to Login page</h1>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold">Welcome to Login page</h1>
     </div>
   `;
 }
