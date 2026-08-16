@@ -1,68 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import htm from 'htm';
+import { useLocation } from 'react-router-dom';
 
-import { CustomerLayout } from '../../layouts/admin/CustomerLayout.js';
 import ProductDetailSection from '../../components/customer/details/ProductDetailSection.js';
 import RelatedProductSection from '../../components/customer/details/RelatedProductSection.js';
-import CartModal from '../../components/ui/modals/customer/CartModal.js';
+import { useProducts } from '../../context/ProductState.js';
+import { useCart } from '../../context/CartState.js';
 
 const html = htm.bind(React.createElement);
 
 export default function ProductDetailsPage() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const productId = queryParams.get('id');
 
-  // Add or increment item quantity in cart
-  const handleAddToCart = (productItem) => {
-    setCartItems((prevItems) => {
-      const existingIndex = prevItems.findIndex((i) => i.id === productItem.id);
-      if (existingIndex > -1) {
-        const updated = [...prevItems];
-        updated[existingIndex].quantity += productItem.quantity || 1;
-        return updated;
-      }
-      return [...prevItems, { ...productItem, quantity: productItem.quantity || 1 }];
-    });
-  };
+  const { products, loading } = useProducts();
+  const { addToCart } = useCart();
 
-  // Update item quantity directly
-  const handleUpdateQty = (itemId, newQty) => {
-    if (newQty <= 0) {
-      handleRemoveItem(itemId);
-      return;
-    }
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQty } : item
-      )
-    );
-  };
+  const product = products.find(p => String(p.id) === String(productId));
 
-  // Remove item from cart
-  const handleRemoveItem = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-  };
+  if (loading) {
+    return html`<div className="min-h-screen bg-[#1e1e24] text-white flex items-center justify-center">Loading product...</div>`;
+  }
 
-  // Proceed to Checkout redirect
-  const handleProceedToCheckout = () => {
-    window.location.href = '/checkout.html';
+  if (!product) {
+    return html`<div className="min-h-screen bg-[#1e1e24] text-white flex items-center justify-center">Product not found.</div>`;
+  }
+
+  const handleAddToCart = (product, qty) => {
+    addToCart(product, qty);
   };
 
   return html`
-    <${CustomerLayout} onOpenCart=${() => setIsCartOpen(true)}>
-      <div>
-        <${ProductDetailSection} onAddToCart=${handleAddToCart} />
-        <${RelatedProductSection} onAddToCart=${handleAddToCart} />
-      </div>
-
-      <${CartModal} 
-        isOpen=${isCartOpen} 
-        onClose=${() => setIsCartOpen(false)} 
-        cartItems=${cartItems}
-        onUpdateQty=${handleUpdateQty}
-        onRemoveItem=${handleRemoveItem}
-        onProceedToCheckout=${handleProceedToCheckout}
-      />
-    <//>
+    <div>
+      <${ProductDetailSection} product=${product} onAddToCart=${handleAddToCart} />
+      <${RelatedProductSection} onAddToCart=${handleAddToCart} />
+    </div>
   `;
 }

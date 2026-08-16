@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import htm from 'htm';
+
+// Imported Context Providers
+import { AuthProvider } from './context/AuthState.js';
+import { CartProvider, useCart } from './context/CartState.js';
+import { ProductProvider } from './context/ProductState.js';
+import { OrderProvider } from './context/OrderState.js';
 
 // Imported layouts 
 import { CustomerLayout } from './layouts/customer/CustomerLayout.js';
@@ -10,6 +16,9 @@ import { CustomerCheckoutLayout } from './layouts/customer/CustomerCheckoutLayou
 import { DashboardLayout } from './layouts/admin/DashboardLayout.js';
 import { ProductLayout } from './layouts/admin/ProductLayout.js';
 import { OrderDetailsLayout } from './layouts/admin/OrderDetailsLayout.js';
+
+// Imported Protected Route
+import ProtectedRoute from './components/admin/ProtectedRoute.js';
 
 // Imported modal
 import CartModal from './components/ui/modals/customer/CartModal.js'; 
@@ -32,11 +41,11 @@ import ProductsPage from './pages/admin/ProductsPage.js';
 
 const html = htm.bind(React.createElement);
 
-export default function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+function AppContent() {
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
+  const { cart, getItemCount } = useCart();
 
-  const totalCartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const totalCartCount = getItemCount();
   const handleOpenCart = () => setIsCartOpen(true);
 
   return html`
@@ -96,37 +105,49 @@ export default function App() {
 
           <${Route} 
             path="/admin/dashboard" 
-            element=${html`<${AdminLayout}><${DashboardLayout}><${DashboardPage} /><//>`} 
+            element=${html`<${ProtectedRoute}><${AdminLayout}><${DashboardLayout}><${DashboardPage} /><//><//>`}
           />
 
           <${Route} 
             path="/admin/customer" 
-            element=${html`<${AdminLayout}><${CustomerPage} /><//>`} 
+            element=${html`<${ProtectedRoute}><${AdminLayout}><${CustomerPage} /><//><//>`}
           />
 
           <${Route} 
             path="/admin/order/details" 
-            element=${html`<${OrderDetailsLayout}><${OrderDetailsPage} /><//>`} 
+            element=${html`<${ProtectedRoute}><${OrderDetailsLayout}><${OrderDetailsPage} /><//><//>`}
           />
 
           <${Route} 
             path="/admin/orders" 
-            element=${html`<${AdminLayout}><${OrdersPage} /><//>`} 
+            element=${html`<${ProtectedRoute}><${AdminLayout}><${OrdersPage} /><//><//>`}
           />
 
           <${Route} 
             path="/admin/products" 
-            element=${html`<${AdminLayout}><${ProductLayout}><${ProductsPage} /><//>`} 
+            element=${html`<${ProtectedRoute}><${AdminLayout}><${ProductLayout}><${ProductsPage} /><//><//>`}
           />
         <//>
 
         <${CartModal} 
           isOpen=${isCartOpen} 
           onClose=${() => setIsCartOpen(false)} 
-          cartItems=${cartItems} 
-          setCartItems=${setCartItems} 
         />
       </div>
+    <//>
+  `;
+}
+
+export default function App() {
+  return html`
+    <${AuthProvider}>
+      <${ProductProvider}>
+        <${CartProvider}>
+          <${OrderProvider}>
+            <${AppContent} />
+          <//>
+        <//>
+      <//>
     <//>
   `;
 }

@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
 import htm from 'htm';
+import { useNavigate } from 'react-router-dom';
 import FilledButton from '../../buttons/FilledButton.js';
+import { useCart } from '../../../../context/CartState.js';
 
 const html = htm.bind(React.createElement);
 
 export default function CartModal({ 
   isOpen, 
-  onClose, 
-  cartItems = [], 
-  onUpdateQty, 
-  onRemoveItem, 
-  onProceedToCheckout 
+  onClose
 }) {
   if (!isOpen) return null;
+
+  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
+  const navigate = useNavigate();
 
   const [editingId, setEditingId] = useState(null);
   const [editQty, setEditQty] = useState('');
 
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const subtotal = getCartTotal();
 
   const handleStartEdit = (item) => {
     setEditingId(item.id);
     setEditQty(item.quantity);
   };
 
-  const handleConfirmEdit = (itemId) => {
+  const handleConfirmEdit = (item) => {
     const parsed = parseInt(editQty, 10);
     if (!isNaN(parsed) && parsed > 0) {
-      if (typeof onUpdateQty === 'function') {
-        onUpdateQty(itemId, parsed);
+      if (parsed > item.stock) {
+        alert(`Only ${item.stock} items available in stock.`);
+        updateQuantity(item.id, item.stock);
+      } else {
+        updateQuantity(item.id, parsed);
       }
     }
     setEditingId(null);
@@ -36,19 +40,15 @@ export default function CartModal({
 
   const handleCheckout = (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    window.open('/checkout.html', '_blank', 'noopener,noreferrer');
-    if (typeof onProceedToCheckout === 'function') {
-      onProceedToCheckout(e, cartItems);
-    }
+    onClose();
+    navigate('/checkout');
   };
 
   return html`
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 sm:p-4 font-['SF_Pro_Display',-apple-system,sans-serif]">
       
-      <!-- Modal Container -->
       <div className="relative w-full max-w-2xl bg-[#52525c] text-white rounded-2xl sm:rounded-[32px] p-4 sm:p-8 shadow-2xl border border-white/10 flex flex-col max-h-[90vh] sm:max-h-[85vh]">
         
-        <!-- Header -->
         <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 flex-shrink-0">
           <button 
             onClick=${onClose}
@@ -60,10 +60,8 @@ export default function CartModal({
           <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight truncate">Items in your cart</h2>
         </div>
 
-        <!-- Items Container -->
         <div className="flex-grow overflow-y-auto mb-4 sm:mb-6 pr-1 sm:pr-2">
           
-          <!-- Desktop Header (Exact Screenshot Columns) -->
           <div className="hidden md:grid grid-cols-12 text-zinc-200 text-sm font-semibold pb-4 px-2 items-center text-center">
             <span className="col-span-4 text-left font-semibold text-base">Items</span>
             <span className="col-span-2 font-semibold text-base">Quantity</span>
@@ -73,25 +71,21 @@ export default function CartModal({
             <span className="col-span-1 font-semibold text-base">Confirm</span>
           </div>
 
-          <!-- Item Rows -->
-          ${cartItems.map((item) => {
+          ${cart.map((item) => {
             const isEditing = editingId === item.id;
 
             return html`
-              <!-- Desktop Row -->
               <div key=${item.id} className="hidden md:grid grid-cols-12 items-center text-center py-4 text-base border-b border-zinc-400/20">
-                
-                <!-- Items Title -->
                 <div className="col-span-4 text-left font-medium text-white pr-3 leading-snug">
-                  ${item.title}
+                  ${item.name || item.title}
                 </div>
 
-                <!-- Quantity -->
                 <div className="col-span-2 font-medium text-lg">
                   ${isEditing ? html`
                     <input 
                       type="number" 
                       min="1"
+                      max=${item.stock}
                       value=${editQty}
                       onChange=${(e) => setEditQty(e.target.value)}
                       className="w-14 text-center bg-zinc-700 text-white border border-white/30 rounded py-0.5 focus:outline-none focus:border-red-500"
@@ -101,12 +95,10 @@ export default function CartModal({
                   `}
                 </div>
 
-                <!-- Price + Vertical Divider -->
                 <div className="col-span-2 font-medium text-base border-r border-zinc-400/40 pr-2">
-                  ${item.price.toFixed(2)}
+                  ${Number(item.price).toFixed(2)}
                 </div>
 
-                <!-- Edit Qty Button -->
                 <div className="col-span-1.5 flex justify-center pl-2">
                   <button 
                     onClick=${() => handleStartEdit(item)}
@@ -119,10 +111,9 @@ export default function CartModal({
                   </button>
                 </div>
 
-                <!-- Remove Button -->
                 <div className="col-span-1.5 flex justify-center">
                   <button 
-                    onClick=${() => onRemoveItem(item.id)}
+                    onClick=${() => removeFromCart(item.id)}
                     className="w-9 h-9 rounded-2xl bg-white text-black flex items-center justify-center shadow hover:scale-105 active:scale-95 transition-transform cursor-pointer"
                     title="Remove Item"
                   >
@@ -132,10 +123,9 @@ export default function CartModal({
                   </button>
                 </div>
 
-                <!-- Confirm Button -->
                 <div className="col-span-1 flex justify-center">
                   <button 
-                    onClick=${() => handleConfirmEdit(item.id)}
+                    onClick=${() => handleConfirmEdit(item)}
                     className=${`w-9 h-9 rounded-2xl text-black flex items-center justify-center shadow hover:scale-105 active:scale-95 transition-transform cursor-pointer ${
                       isEditing ? 'bg-green-400' : 'bg-white'
                     }`}
@@ -146,13 +136,11 @@ export default function CartModal({
                     </svg>
                   </button>
                 </div>
-
               </div>
 
-              <!-- Mobile Card Row -->
               <div key="mobile-${item.id}" className="md:hidden bg-[#3f3f46]/60 rounded-xl p-3 mb-2 border border-white/5 space-y-2">
                 <div className="flex justify-between items-start gap-2">
-                  <span className="font-bold text-white text-base leading-snug">${item.title}</span>
+                  <span className="font-bold text-white text-base leading-snug">${item.name || item.title}</span>
                   <span className="font-extrabold text-white text-base">Php ${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
                 
@@ -163,48 +151,32 @@ export default function CartModal({
                       <input 
                         type="number" 
                         value=${editQty}
+                        max=${item.stock}
                         onChange=${(e) => setEditQty(e.target.value)}
                         className="w-12 ml-1 bg-zinc-700 text-white rounded text-center"
                       />
                     ` : html`
                       <strong className="text-white font-bold ml-1">${String(item.quantity).padStart(2, '0')}</strong>
                     `}
-                    <span className="text-zinc-400 ml-1">(${item.price.toFixed(2)} ea)</span>
+                    <span className="text-zinc-400 ml-1">(${Number(item.price).toFixed(2)} ea)</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <button 
-                      onClick=${() => handleStartEdit(item)} 
-                      className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90"
-                    >
-                      ✏️
-                    </button>
-                    <button 
-                      onClick=${() => onRemoveItem(item.id)} 
-                      className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90"
-                    >
-                      ✕
-                    </button>
-                    <button 
-                      onClick=${() => handleConfirmEdit(item.id)} 
-                      className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90"
-                    >
-                      ✓
-                    </button>
+                    <button onClick=${() => handleStartEdit(item)} className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90">✏️</button>
+                    <button onClick=${() => removeFromCart(item.id)} className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90">✕</button>
+                    <button onClick=${() => handleConfirmEdit(item)} className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center font-bold active:scale-90">✓</button>
                   </div>
                 </div>
               </div>
             `;
           })}
 
-          ${cartItems.length === 0 ? html`
+          ${cart.length === 0 ? html`
             <div className="text-center text-zinc-400 py-12 text-base">Your cart is empty.</div>
           ` : null}
         </div>
 
-        <!-- Bottom Action Bar -->
         <div className="w-full bg-[#1e1e24] rounded-2xl md:rounded-full p-3 sm:p-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-3 border border-white/10 shadow-xl flex-shrink-0">
-          
           <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-4 text-sm sm:text-base font-bold">
             <div>
               <span className="text-zinc-400 mr-1.5">Subtotal:</span>
@@ -220,14 +192,15 @@ export default function CartModal({
             <${FilledButton} 
               text="Checkout"
               onClick=${handleCheckout}
+              disabled=${cart.length === 0}
               bgColor="bg-red-600 hover:bg-red-700"
               textColor="text-white"
               width="flex-1 md:flex-none w-auto"
               height="h-10 sm:h-11"
-              className="px-5 font-extrabold text-xs sm:text-sm rounded-full shadow-lg active:scale-95 transition-all text-center cursor-pointer"
+              className="px-5 font-extrabold text-xs sm:text-sm rounded-full shadow-lg active:scale-95 transition-all text-center cursor-pointer disabled:opacity-50"
             />
             <${FilledButton} 
-              text="Cancel Items"
+              text="Close"
               onClick=${onClose}
               bgColor="bg-white hover:bg-zinc-200"
               textColor="text-black"
@@ -236,7 +209,6 @@ export default function CartModal({
               className="px-4 font-extrabold text-xs sm:text-sm rounded-full active:scale-95 transition-all text-center cursor-pointer"
             />
           </div>
-
         </div>
 
       </div>

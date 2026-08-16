@@ -1,57 +1,40 @@
-// src/pages/customer/HomePage.js
-import React, { useState } from 'react';
+import React from 'react';
 import htm from 'htm';
+import { useNavigate } from 'react-router-dom';
 
 import BannerSection from '../../components/customer/shop/BannerSection.js';
 import CollectionSection from '../../components/customer/shop/CollectionSection.js';
-import CartModal from '../../components/ui/modals/customer/CartModal.js';
+import { useProducts } from '../../context/ProductState.js';
+import { useCart } from '../../context/CartState.js';
 
 const html = htm.bind(React.createElement);
 
-export default function ShopPage({ products = [] }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+export default function ShopPage() {
+  const { products, categories, loading } = useProducts();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
-  // Add or increment item quantity
-  const handleAddToCart = (productItem) => {
-    setCartItems((prevItems) => {
-      const existingIndex = prevItems.findIndex((i) => i.id === productItem.id);
-      if (existingIndex > -1) {
-        const updated = [...prevItems];
-        updated[existingIndex].quantity += 1;
-        return updated;
-      }
-      return [...prevItems, { ...productItem, quantity: 1 }];
-    });
+  const handleAddToCart = (product) => {
+    addToCart(product);
   };
 
-  // Remove item from cart
-  const handleRemoveItem = (itemId) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+  const handleViewDetails = (id) => {
+    navigate(`/product/details?id=${id}`);
   };
 
-  // Checkout redirect matching Product Details process
-  const handleProceedToCheckout = () => {
-    window.location.href = '/checkout.html';
-  };
+  if (loading) {
+    return html`<div className="min-h-screen bg-[#1e1e24] text-white flex items-center justify-center">Loading shop...</div>`;
+  }
 
   return html`
     <div className="min-h-screen bg-[#1e1e24] text-white">
       <${BannerSection} />
       
-      <!-- Pass products array and handleAddToCart handler to collection grid -->
-      <${CollectionSection} 
+      <${CollectionSection}
         products=${products} 
-        onAddToCart=${handleAddToCart} 
-      />
-
-      <!-- Cart Modal -->
-      <${CartModal} 
-        isOpen=${isCartOpen}
-        onClose=${() => setIsCartOpen(false)}
-        cartItems=${cartItems}
-        onRemoveItem=${handleRemoveItem}
-        onProceedToCheckout=${handleProceedToCheckout}
+        categories=${categories.map(c => c.name)}
+        onAddToCart=${handleAddToCart}
+        onViewDetails=${handleViewDetails}
       />
     </div>
   `;

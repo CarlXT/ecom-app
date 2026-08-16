@@ -152,3 +152,78 @@ export async function uploadProductImage(file) {
     return { publicUrl: null, error: err.message };
   }
 }
+
+/**
+ * Fetch all categories
+ */
+export async function fetchCategories() {
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .order('name');
+
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('Error fetching categories:', err.message);
+    return { data: [], error: err.message };
+  }
+}
+
+/**
+ * Create a new category (Admin)
+ */
+export async function createCategory(category) {
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .insert([category])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('Error creating category:', err.message);
+    return { data: null, error: err.message };
+  }
+}
+
+/**
+ * Update an existing category (Admin)
+ */
+export async function updateCategory(id, updates) {
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error(`Error updating category #${id}:`, err.message);
+    return { data: null, error: err.message };
+  }
+}
+
+/**
+ * Delete a category (Admin)
+ */
+export async function deleteCategory(id) {
+  try {
+    const { error } = await supabase
+      .from('categories')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    return { success: true, error: null };
+  } catch (err) {
+    console.error(`Error deleting category #${id}:`, err.message);
+    return { success: false, error: err.message };
+  }
+}

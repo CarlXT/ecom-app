@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import htm from 'htm';
+import { useProducts } from '../../../context/ProductState.js';
+import { useCart } from '../../../context/CartState.js';
 
 const html = htm.bind(React.createElement);
 
@@ -54,9 +56,18 @@ const sampleFeaturedProducts = [
   }
 ];
 
-export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
+export default function FeaturedProductSection({ onBuyNow }) {
+  const { products, loading } = useProducts();
+  const { addToCart } = useCart();
   const [activeIndex, setActiveIndex] = useState(0);
-  const currentProduct = sampleFeaturedProducts[activeIndex];
+
+  const featuredProducts = products.length > 0 ? products.slice(0, 4) : [];
+
+  if (loading || featuredProducts.length === 0) {
+    return html`<section className="w-full bg-[#121214] py-12 text-center text-zinc-500">Loading featured products...</section>`;
+  }
+
+  const currentProduct = featuredProducts[activeIndex];
 
   // Category items with SVG icons
   const categories = [
@@ -157,7 +168,7 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
               </button>
               
               <button
-                onClick=${() => onAddToCart && onAddToCart(currentProduct)}
+                onClick=${() => addToCart(currentProduct)}
                 className="px-8 py-3 bg-white hover:bg-zinc-200 text-black font-extrabold text-sm rounded-full shadow-lg active:scale-95 transition-transform cursor-pointer focus:outline-none"
               >
                 Add to Cart
@@ -169,9 +180,9 @@ export default function FeaturedProductSection({ onAddToCart, onBuyNow }) {
 
         <!-- Carousel Pagination Dots -->
         <div className="flex justify-center items-center gap-2.5 pt-4">
-          ${sampleFeaturedProducts.map((slide, idx) => html`
+          ${featuredProducts.map((slide, idx) => html`
             <button
-              key=${`${slide.title || 'featured-slide'}-${idx}`}
+              key=${`${slide.name || 'featured-slide'}-${idx}`}
               onClick=${() => setActiveIndex(idx)}
               aria-label="Go to slide ${idx + 1}"
               className="w-2.5 h-2.5 rounded-full transition-all focus:outline-none cursor-pointer ${activeIndex === idx ? 'bg-white scale-125' : 'bg-zinc-600 hover:bg-zinc-400'}"

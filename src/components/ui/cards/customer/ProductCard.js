@@ -8,7 +8,8 @@ export function ProductCard(props) {
     id,
     productUrl,
     image = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-    title = 'HEADY STUDIO MONITOR 50',
+    name,
+    title, // support both
     category = 'Headphone',
     price = 900.00,
     currency = 'Php',
@@ -19,11 +20,12 @@ export function ProductCard(props) {
     onViewDetails
   } = props;
 
-  const isOutOfStock = status === 'out_of_stock' || stock <= 0;
+  const displayTitle = name || title || 'HEADY STUDIO MONITOR 50';
+  const isOutOfStock = status === 'Out of Stock' || status === 'Inactive' || stock <= 0;
 
   const getBadgeColorClass = () => {
     if (isOutOfStock) return 'bg-[#8E8E93]';
-    if (status === 'depleting' || stock <= depletingThreshold) return 'bg-[#FF3B30]';
+    if (stock <= depletingThreshold) return 'bg-[#FF3B30]';
     return 'bg-[#34C759]';
   };
 
@@ -34,7 +36,7 @@ export function ProductCard(props) {
   const handleViewDetails = (e) => {
     if (onViewDetails) {
       e.preventDefault();
-      onViewDetails(e, props);
+      onViewDetails(id);
     }
   };
 
@@ -46,20 +48,20 @@ export function ProductCard(props) {
 
     if (typeof onAddToCart === 'function') {
       onAddToCart({
-        id: id || title,
-        title,
+        id,
+        name: displayTitle,
         price,
         image,
         category,
         stock,
         quantity: 1
-      }, e);
+      });
     } else {
       console.warn('onAddToCart handler is missing from parent component props.');
     }
   };
 
-  const targetUrl = productUrl || `/product.html?id=${id || encodeURIComponent(title)}`;
+  const targetUrl = productUrl || `#/product/details?id=${id}`;
 
   return html`
     <div className="w-full max-w-[436px] bg-transparent text-white font-['SF_Pro',-apple-system,BlinkMacSystemFont,sans-serif] flex flex-col justify-between p-1.5 sm:p-2.5 select-none box-border">
@@ -68,7 +70,7 @@ export function ProductCard(props) {
       <div className="w-full aspect-square overflow-hidden rounded-2xl sm:rounded-[32px] mx-auto flex-shrink-0 bg-zinc-900">
         <img 
           src=${image} 
-          alt=${title} 
+          alt=${displayTitle}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
       </div>
@@ -88,7 +90,7 @@ export function ProductCard(props) {
 
         <!-- Product Name -->
         <h2 className="text-sm sm:text-[32px] font-black uppercase tracking-tight leading-snug sm:leading-[1.05] text-white line-clamp-2">
-          ${title}
+          ${displayTitle}
         </h2>
 
         <!-- Price & Action Icons Row -->

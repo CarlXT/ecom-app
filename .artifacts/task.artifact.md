@@ -1,0 +1,29 @@
+# Tasks - E-commerce App Integration
+
+- `[x]` **Priority 1: Shared Data Foundation**
+    - `[x]` Implement `AuthState.js` for session management
+    - `[x]` Create `ProductState.js` for global product/category data
+    - `[x]` Implement `orderApi.js` with Supabase calls
+    - `[x]` Create `OrderState.js` for order management
+    - `[x]` Wrap `App.js` with all Context Providers
+- `[x]` **Priority 2: Customer Storefront Core**
+    - `[x]` Connect `HomePage.js` to `ProductContext`
+    - `[x]` Implement Search and Filters in `ShopPage.js`
+    - `[x]` Implement Quantity Selector and Add to Cart in `ProductDetailsPage.js`
+    - `[x]` Connect `CheckoutPage.js` to `OrderContext` for submission
+    - `[x]` Implement `OrderConfirmationPage.js` logic
+- `[x]` **Priority 3: Admin Auth and Protected Routes**
+    - `[x]` Implement `LoginPage.js` with `AuthContext`
+    - `[x]` Create `ProtectedRoute.js` component
+    - `[x]` Apply `ProtectedRoute` to admin routes in `App.js`
+- `[x]` **Priority 4: Admin CRUD**
+    - `[x]` Implement full Product CRUD in `ProductsPage.js`
+    - `[x]` Implement Category management (Create/Edit/Delete)
+    - `[x]` Implement Order list and status updates in `OrdersPage.js`
+    - `[x]` Implement Customer statistics in `CustomerPage.js`
+- `[x]` **Priority 5: Data Sync and behavior rules**
+    - `[x]` Verify sync between Admin changes and Customer view
+    - `[x]` Implement stock level validation
+- `[x]` **Priority 6: Polish and Production Hardening**
+    - `[x]` Add loading and empty states
+    - `[x]` Final validation and responsive check
