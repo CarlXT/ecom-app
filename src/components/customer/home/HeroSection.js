@@ -97,9 +97,9 @@ export default function HeroSection() {
           style=${{ transform: `translateX(-${currentBgIndex * 100}%)` }}
         >
           ${bgImages.map(
-            (bgUrl) => html`
+            (bgUrl, idx) => html`
               <div
-                key=${bgUrl}
+                key=${bgUrl || `bg-${idx}`}
                 className="w-full h-full flex-shrink-0 bg-cover bg-center"
                 style=${{ backgroundImage: `url(${bgUrl})` }}
               />

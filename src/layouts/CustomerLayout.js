@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import htm from 'htm';
 
-// Asset paths resolved relative to runtime location
-const headDarkLogo = new URL('../assets/logos/heady-dark.svg', import.meta.url).href;
-const headyFullLogo = new URL('../assets/logos/heady-dark-full.svg', import.meta.url).href;
-const headyFooterLogo = new URL('../assets/logos/heady-dark-footer.svg', import.meta.url).href;
+// Asset paths (use absolute /src paths so the dev server can load them directly)
+const headDarkLogo = '/src/assets/logos/heady-dark.svg';
+const headyFullLogo = '/src/assets/logos/heady-dark-full.svg';
+const headyFooterLogo = '/src/assets/logos/heady-dark-footer.svg';
 
 const html = htm.bind(React.createElement);
 
