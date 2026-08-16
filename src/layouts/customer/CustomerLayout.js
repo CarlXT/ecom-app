@@ -1,1 +1,2 @@
+export * from '../CustomerLayout.js';
 export { CustomerLayout as default } from '../CustomerLayout.js';
