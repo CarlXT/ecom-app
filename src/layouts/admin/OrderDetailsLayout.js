@@ -1,0 +1,61 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import htm from 'htm';
+
+const adminHeadyLogo = new URL('../assets/logos/admin-heady-logo.svg', import.meta.url).href;
+
+const html = htm.bind(React.createElement);
+
+export function OrderDetailsLayout({ 
+  title = "Order Details", 
+  onClose, 
+  headDarkLogo = "../assets/logo.png", 
+  children 
+}) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return html`
+    <div class="min-h-screen w-full bg-[#121214] text-white flex flex-col overflow-x-hidden">
+      
+      <header class=${`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-[#121214]/95 backdrop-blur-md border-b border-zinc-800/50 shadow-xl py-4' 
+          : 'bg-transparent border-b border-transparent py-6'
+      }`}>
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
+          <button 
+            type="button"
+            onClick=${onClose || (() => window.history.back())}
+            class="flex items-center gap-2 text-zinc-300 hover:text-white text-lg font-bold transition-colors cursor-pointer focus:outline-none"
+          >
+            <span class="text-xl">✕</span>
+            <span>${title}</span>
+          </button>
+
+          <${Link} to="/" class="hover:opacity-90 transition-opacity">
+            <img src=${adminHeadyLogo} alt="Heady Logo" class="h-10 w-auto" />
+          <//> 
+        </div>
+      </header>
+
+      <main class="w-full max-w-7xl mx-auto px-6 sm:px-12 flex-grow pt-28 pb-12">
+        ${children}
+      </main>
+
+      <footer class="text-zinc-600 text-xs text-center py-4 border-t border-zinc-800/50">
+        © 2026 Heady. All rights reserved.
+      </footer>
+
+    </div>
+  `;
+}
+
+export default OrderDetailsLayout;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import htm from 'htm';
 
-import UploadProductPictureButton from './UploadProductPictureButton.js';
-import InputTextField from './InputTextField.js';
-import DescriptionField from './DescriptionField.js';
-import FilledButton from './FilledButton.js';
+import UploadProductPictureButton from '../../buttons/UploadProductPictureButton.js';
+import InputTextField from '../../fields/InputTextField.js';
+import DescriptionField from '../../fields/DescriptionField.js';
+import FilledButton from '../../buttons/FilledButton.js';
 
 const html = htm.bind(React.createElement);
 

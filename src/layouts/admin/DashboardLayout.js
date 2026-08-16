@@ -3,7 +3,7 @@ import htm from 'htm';
 
 const html = htm.bind(React.createElement);
 
-export function OverviewHeaderSection({
+export function DashboardLayout({
   title = "Overview",
   className = ""
 }) {
@@ -19,4 +19,4 @@ export function OverviewHeaderSection({
   `;
 }
 
-export default OverviewHeaderSection;
+export default DashboardLayout;

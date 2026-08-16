@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import htm from 'htm';
 
 // Asset paths resolved relative to runtime location
-const headDarkLogo = new URL('../assets/logos/heady-dark.svg', import.meta.url).href;
+const headyDarkLogo = new URL('../assets/logos/heady-dark.svg', import.meta.url).href;
 const headyFullLogo = new URL('../assets/logos/heady-dark-full.svg', import.meta.url).href;
 const headyFooterLogo = new URL('../assets/logos/heady-dark-footer.svg', import.meta.url).href;
 
@@ -88,7 +88,7 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart }) {
         <div class="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
           <!-- Brand Logo (Navbar) -->
           <${Link} to="/" class="hover:opacity-90 transition-opacity">
-            <img src=${headDarkLogo} alt="Heady Logo" class="h-12 w-auto" />
+            <img src=${headyDarkLogo} alt="Heady Logo" class="h-12 w-auto" />
           <//> 
 
           <!-- Desktop Navigation Links -->
@@ -355,3 +355,5 @@ export function CustomerLayout({ children, cartCount = 0, onOpenCart }) {
     </div>
   `;
 }
+
+export default CustomerLayout;

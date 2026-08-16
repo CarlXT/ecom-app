@@ -4,9 +4,12 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import htm from 'htm';
 
 // Imported layouts 
-import { CustomerLayout } from './layouts/CustomerLayout.js';
-import { AdminLayout } from './layouts/AdminLayout.js';
-import { CustomerCheckoutLayout } from './layouts/CustomerCheckoutLayout.js';
+import { CustomerLayout } from './layouts/customer/CustomerLayout.js';
+import { AdminLayout } from './layouts/admin/AdminLayout.js';
+import { CustomerCheckoutLayout } from './layouts/customer/CustomerCheckoutLayout.js';
+import { DashboardLayout } from './layouts/admin/DashboardLayout.js';
+import { ProductLayout } from './layouts/admin/ProductLayout.js';
+import { OrderDetailsLayout } from './layouts/admin/OrderDetailsLayout.js';
 
 // Imported modal
 import CartModal from './components/ui/modals/customer/CartModal.js'; 
@@ -93,7 +96,7 @@ export default function App() {
 
           <${Route} 
             path="/admin/dashboard" 
-            element=${html`<${AdminLayout}><${DashboardPage} /><//>`} 
+            element=${html`<${AdminLayout}><${DashboardLayout}><${DashboardPage} /><//>`} 
           />
 
           <${Route} 
@@ -103,7 +106,7 @@ export default function App() {
 
           <${Route} 
             path="/admin/order/details" 
-            element=${html`<${AdminLayout}><${OrderDetailsPage} /><//>`} 
+            element=${html`<${OrderDetailsLayout}><${OrderDetailsPage} /><//>`} 
           />
 
           <${Route} 
@@ -113,7 +116,7 @@ export default function App() {
 
           <${Route} 
             path="/admin/products" 
-            element=${html`<${AdminLayout}><${ProductsPage} /><//>`} 
+            element=${html`<${AdminLayout}><${ProductLayout}><${ProductsPage} /><//>`} 
           />
         <//>
 

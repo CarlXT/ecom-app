@@ -1,8 +1,7 @@
-// src/pages/customer/ProductDetailsPage.js
 import React, { useState } from 'react';
 import htm from 'htm';
 
-import { CustomerLayout } from '../../layouts/CustomerLayout.js';
+import { CustomerLayout } from '../../layouts/admin/CustomerLayout.js';
 import ProductDetailSection from '../../components/customer/details/ProductDetailSection.js';
 import RelatedProductSection from '../../components/customer/details/RelatedProductSection.js';
 import CartModal from '../../components/ui/modals/customer/CartModal.js';

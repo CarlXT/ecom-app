@@ -7,7 +7,7 @@ import ShippingDetailsSection from '../../components/customer/checkout/ShippingD
 import PaymentMethodSection from '../../components/customer/checkout/PaymentMethodSection.js';
 import CheckoutOrderSection from '../../components/customer/checkout/CheckoutOrderSection.js';
 import OrderSummarySection from '../../components/customer/checkout/OrderSummarySection.js';
-import { CustomerCheckoutLayout } from '../../layouts/CustomerCheckoutLayout.js';
+import { CustomerCheckoutLayout } from '../../layouts/customer/CustomerCheckoutLayout.js';
 
 const html = htm.bind(React.createElement);
 

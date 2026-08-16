@@ -47,12 +47,14 @@
 
     Run the standalone executable in your terminal to automatically build changes in `css/input.css`:
 
-    ```bash
     # Windows (PowerShell)
+    ```bash
     .\bin\tailwindcss.exe -i .\css\input.css -o .\css\output.css --watch
-
+    ```
     # macOS / Linux
+    ```bash
     ./bin/tailwindcss -i ./css/input.css -o ./css/output.css --watch
+    ```
 
 5. **Run the Application**
 
@@ -61,7 +63,7 @@
     ```bash
     python -m http.server 8000
     ```
-    Open `http://localhost:8000` in your browser. 
+    Open [http://localhost:8000] in your browser. 
 
 ### Project Structure
 
