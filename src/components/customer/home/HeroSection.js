@@ -71,6 +71,11 @@ export default function HeroSection() {
 
   const formatNumber = (num) => String(num).padStart(2, '0');
 
+  // Debug: log slide keys to help trace React key warnings in dev console
+  if (typeof window !== 'undefined' && window?.console?.debug) {
+    console.debug('HeroSection slide keys:', bgImages.map((_, i) => `hero-slide-${i}`));
+  }
+
   // Font style constant for SF Pro family
   const sfProFontStyle = {
     fontFamily: '"SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
